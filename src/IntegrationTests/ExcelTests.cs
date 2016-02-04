@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Core;
+using Core.Models;
 using DataAccess;
+using Moq;
 using Ninject;
 using NUnit.Framework;
 using Should;
@@ -58,9 +62,9 @@ namespace IntegrationTests
             var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
-            var result = _reader.ReadWorkSheet();
+            var result = _reader.ReadWorkSheet().ToList();
             result.Count.ShouldEqual(4);
-            result[2].First().ShouldEqual("Row2Col1");
+            result[2].Value.First().ShouldEqual("Row2Col1");
         }
 
         [Test, Category("Integration")]
@@ -84,6 +88,62 @@ namespace IntegrationTests
         }
 
         [Test, Category("Integration")]
+        public void RowCountChanged_Event_Should_Fire()
+        {
+            var reader = Kernel.Get<IReadExcelFiles>();
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
+            reader.InputFile = inputPath;
+            var eventFired = false;
+            reader.RowCounterChanged += (sender, args) => eventFired = true;
+            reader.ReadWorkSheet();
+            eventFired.ShouldBeTrue();
+            reader.RowCount.ShouldEqual(4);
+        }
+
+        [Test, Category("Integration")]
+        public void FullStackTest()
+        {
+            var reader = Kernel.Get<IReadExcelFiles>();
+            var processor = Kernel.Get<IProcessor>();
+            var writer = Kernel.Get<IWriteExcelFiles>();
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\SampleData.xlsx";
+            var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\SampleData_Output.xlsx";
+            var citationEventFired = false;
+            var rowsToWriteEventFired = false;
+            var inputFilterEventFired = false;
+            var outputFileEventFired = false;
+            var rowsWrittenEventFired = false;
+            bool rowCounterEventFired = false;
+
+
+            reader.InputFileChanged += (sender, args) => inputFilterEventFired = true;
+            reader.RowCounterChanged += (sender, args) => rowCounterEventFired = true;
+            processor.CitationsCountChanged += (sender, args) => citationEventFired = true;
+            processor.RowsToWriteChanged += (sender, args) => rowsToWriteEventFired = true;
+            writer.OutputPathChanged += (sender, args) => outputFileEventFired = true;
+            writer.RowsWrittenChanged += (sender, args) => rowsWrittenEventFired = true;
+
+            reader.InputFile = inputPath;
+            writer.OutputPath = outputPath;
+            var worksheet = reader.ReadWorkSheet();
+            var forfitureInputs = processor.MapToCashBondForfitureInput(worksheet);
+            var forfitureOutputs = processor.MapToCashBondForfitureOutput(forfitureInputs).ToList();
+            writer.WriteToExcelFile(forfitureOutputs);
+
+
+            citationEventFired.ShouldBeTrue();
+            rowsToWriteEventFired.ShouldBeTrue();
+            inputFilterEventFired.ShouldBeTrue();
+            outputFileEventFired.ShouldBeTrue();
+            rowsWrittenEventFired.ShouldBeTrue();
+            rowCounterEventFired.ShouldBeTrue();
+            reader.RowCount.ShouldEqual(processor.Citations);
+            processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count());
+            writer.RowsWritten.ShouldEqual(processor.RowsToWrite);
+        }
+
+
+        [Test, Category("Integration")]
         public void Should_Write_An_Excel_File_From_A_List()
         {
             Bootstrap();
@@ -95,5 +155,14 @@ namespace IntegrationTests
             FileAssert.Exists(outputPath);
         }
 
+        [Test, Category("Integration")]
+        public void Reader_Should_Get_RowCount()
+        {
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
+            _reader = Kernel.Get<IReadExcelFiles>();
+            _reader.InputFile = inputPath;
+            _reader.ReadWorkSheet();
+            _reader.RowCount.ShouldEqual(4);
+        }
     }
 }

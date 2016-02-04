@@ -8,10 +8,27 @@ namespace DataAccess
 {
     public class Processor : IProcessor
     {
+        private int _citations;
+        private int _rowsToWrite;
+
+        public int Citations
+        {
+            get { return _citations; }
+            set
+            {
+                _citations = value;
+                CitationsCountChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler CitationsCountChanged;
+
         public IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(
-            Dictionary<int, IEnumerable<string>> origin) => origin.Values.Select(row => row
-                .ToArray())
-                .Select(rowArray => 
+            Dictionary<int, IEnumerable<string>> origin)
+        {
+         return   origin.Values
+                .Select(row => row.ToArray())
+                .Select(rowArray =>
                     new CashBondForfitureInput
                     {
                         OffenseDate = rowArray[0],
@@ -29,9 +46,11 @@ namespace DataAccess
                         Juvenile = rowArray[12],
                         DispOper = rowArray[13]
                     });
+        }
 
         public IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(IEnumerable<CashBondForfitureInput> input)
         {
+            Citations = 0;
             CashBondForfitureOutputCompare comparer = new CashBondForfitureOutputCompare();
             var rows = input.ToList();
             List<CashBondForfitureOutput> result = new List<CashBondForfitureOutput>();
@@ -52,15 +71,30 @@ namespace DataAccess
                 if (existingItem != null)
                 {
                     existingItem.Citations.Add(new Citation {CitationNumber = row.CitationNumber, Offense = row.Offense});
+                    Citations++;
                 }
                 else
                 {
                     newItem.Citations.Add(new Citation {CitationNumber = row.CitationNumber, Offense = row.Offense});
                     result.Add(newItem);
+                    Citations++;
                 }
             }
+            RowsToWrite = result.Count;
             return result;
         }
+
+        public int RowsToWrite
+        {
+            get { return _rowsToWrite; }
+            private set
+            {
+                _rowsToWrite = value; 
+                RowsToWriteChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler RowsToWriteChanged;
     }
 
     public class CashBondForfitureOutputCompare : IEqualityComparer<CashBondForfitureOutput>

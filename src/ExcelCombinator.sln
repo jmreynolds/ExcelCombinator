@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Integra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{1DA82269-4411-4CCA-B7C8-9717805ACAC0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI.WinForms", "UI.WinForms\UI.WinForms.csproj", "{2016D12F-254C-4AB6-954E-BEC81DA83B79}"
+EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Installer", "Installer\Installer.aiproj", "{3D77C494-9EA3-4012-ACBC-60E2A90FFD30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,13 @@ Global
 		{1DA82269-4411-4CCA-B7C8-9717805ACAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DA82269-4411-4CCA-B7C8-9717805ACAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DA82269-4411-4CCA-B7C8-9717805ACAC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2016D12F-254C-4AB6-954E-BEC81DA83B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2016D12F-254C-4AB6-954E-BEC81DA83B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2016D12F-254C-4AB6-954E-BEC81DA83B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2016D12F-254C-4AB6-954E-BEC81DA83B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D77C494-9EA3-4012-ACBC-60E2A90FFD30}.Debug|Any CPU.ActiveCfg = All
+		{3D77C494-9EA3-4012-ACBC-60E2A90FFD30}.Release|Any CPU.ActiveCfg = All
+		{3D77C494-9EA3-4012-ACBC-60E2A90FFD30}.Release|Any CPU.Build.0 = All
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

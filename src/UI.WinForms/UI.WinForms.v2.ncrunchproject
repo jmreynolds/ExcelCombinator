@@ -17,36 +17,10 @@
   <DetectStackOverflow>true</DetectStackOverflow>
   <IncludeStaticReferencesInWorkspace>true</IncludeStaticReferencesInWorkspace>
   <DefaultTestTimeout>60000</DefaultTestTimeout>
-  <UseBuildConfiguration></UseBuildConfiguration>
-  <UseBuildPlatform></UseBuildPlatform>
-  <ProxyProcessPath></ProxyProcessPath>
+  <UseBuildConfiguration />
+  <UseBuildPlatform />
+  <ProxyProcessPath />
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
-  <IgnoredTests>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.Should_Read_Columns</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.Should_Read_Full_WorkSheet</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.Should_Write_An_Excel_File_From_A_List</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.Reader_Should_Get_RowCount</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.RowCountChanged_Event_Should_Fire</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.CitationCountChanged_Should_Fire</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.ProcessorEvents_Should_Fire</TestName>
-    </NamedTestSelector>
-    <NamedTestSelector>
-      <TestName>IntegrationTests.ExcelTests.FullStackTest</TestName>
-    </NamedTestSelector>
-  </IgnoredTests>
 </ProjectConfiguration>

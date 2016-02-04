@@ -9,6 +9,7 @@ namespace DataAccess
     public class WriteExcelFiles : ExcelBase, IWriteExcelFiles
     {
         private string _outputPath;
+        private int _rowsWritten;
 
         public string OutputPath
         {
@@ -22,6 +23,18 @@ namespace DataAccess
 
         public event EventHandler OutputPathChanged;
 
+        public int RowsWritten
+        {
+            get { return _rowsWritten; }
+            private set
+            {
+                _rowsWritten = value;
+                RowsWrittenChanged?.Invoke(this,EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler RowsWrittenChanged;
+
         public void WriteToExcelFile(IEnumerable<CashBondForfitureOutput> output)
         {
             OpenWorksheet();
@@ -29,7 +42,7 @@ namespace DataAccess
             var rows = output.ToArray();
 
             SetColumnNames();
-
+            RowsWritten = 0;
             for (var i = 0; i < rows.Length; i++)
             {
                 var rowIndex = i + 2;
@@ -47,6 +60,7 @@ namespace DataAccess
                     offNum = offNum + 2;
                 }
                 Worksheet.Cells[rowIndex, 18].Value = rows[i].DispositionDate;
+                RowsWritten++;
             }
 
             Worksheet.Name = "Output";
