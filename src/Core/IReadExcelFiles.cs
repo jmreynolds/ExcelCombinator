@@ -9,9 +9,11 @@ namespace Core
     {
         string InputFile { get; set; }
         event EventHandler InputFileChanged;
+        int RowsRead { get; }
         int RowCount { get; }
-        event EventHandler RowCounterChanged;
+        event EventHandler RowsReadChanged;
         IEnumerable<string> ReadColumnNames();
         Dictionary<int, IEnumerable<string>> ReadWorkSheet();
+        event EventHandler RowCountChanged;
     }
 }

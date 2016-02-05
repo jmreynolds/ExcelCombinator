@@ -2,7 +2,7 @@ using System;
 
 namespace DataAccess
 {
-    public class ExcelBase
+    public abstract class ExcelBase
     {
         protected NetOffice.ExcelApi.Application Application;
         protected NetOffice.ExcelApi.Workbook Workbook;
@@ -25,5 +25,6 @@ namespace DataAccess
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+
     }
 }

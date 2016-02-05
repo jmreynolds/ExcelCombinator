@@ -22,6 +22,7 @@ namespace DataAccess
 
         public event EventHandler InputFileChanged;
 
+        private int _rowsRead;
         private int _rowCount;
 
         public int RowCount
@@ -29,12 +30,23 @@ namespace DataAccess
             get { return _rowCount; }
             private set
             {
-                _rowCount = value;
-                RowCounterChanged?.Invoke(this, EventArgs.Empty);
+                _rowCount = value; 
+                RowCountChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public event EventHandler RowCounterChanged;
+        public event EventHandler RowCountChanged;
+        public int RowsRead
+        {
+            get { return _rowsRead; }
+            private set
+            {
+                _rowsRead = value;
+                RowsReadChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler RowsReadChanged;
 
         public IEnumerable<string> ReadColumnNames()
         {
@@ -68,8 +80,9 @@ namespace DataAccess
             {
                 OpenWorksheet(InputFile);
                 var colCount = Worksheet.UsedRange.Cells.Columns.Count;
-                var rowCount = Worksheet.UsedRange.Cells.Rows.Count;
-                for (int rowNum = 1; rowNum <= rowCount; rowNum++)
+                RowCount = Worksheet.UsedRange.Cells.Rows.Count;
+                RowsRead = 0; // We're starting with the Header...
+                for (int rowNum = 1; rowNum <= RowCount; rowNum++)
                 {
                     List<string> row = new List<string>();
                     for (int colNum = 1; colNum <= colCount; colNum++)
@@ -77,6 +90,7 @@ namespace DataAccess
                         row.Add(Worksheet.UsedRange.Cells[rowNum, colNum].Text.ToString());
                     }
                     rows.Add(rowNum, row);
+                    RowsRead++;
                 }
             }
             catch (Exception exc)
@@ -87,9 +101,10 @@ namespace DataAccess
             {
                 KillExcel();
             }
-            RowCount = rows.Count-1;
+            
             return rows.Where(pair => pair.Key > 1).ToDictionary(x => x.Key, x => x.Value);
         }
+
 
         protected void OpenWorksheet(string fileName)
         {

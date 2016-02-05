@@ -93,11 +93,14 @@ namespace IntegrationTests
             var reader = Kernel.Get<IReadExcelFiles>();
             var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
             reader.InputFile = inputPath;
-            var eventFired = false;
-            reader.RowCounterChanged += (sender, args) => eventFired = true;
+            var rowsReadEventFired = false;
+            var rowsCountEventFired = false;
+            reader.RowsReadChanged += (sender, args) => rowsReadEventFired = true;
+            reader.RowCountChanged += (sender, args) => rowsCountEventFired = true;
             reader.ReadWorkSheet();
-            eventFired.ShouldBeTrue();
-            reader.RowCount.ShouldEqual(4);
+            rowsReadEventFired.ShouldBeTrue();
+            rowsCountEventFired.ShouldBeTrue();
+            reader.RowsRead.ShouldEqual(4);
         }
 
         [Test, Category("Integration")]
@@ -113,11 +116,13 @@ namespace IntegrationTests
             var inputFilterEventFired = false;
             var outputFileEventFired = false;
             var rowsWrittenEventFired = false;
-            bool rowCounterEventFired = false;
+            var rowCountEventFired = false;
+            var rowsReadEventFired = false;
 
 
             reader.InputFileChanged += (sender, args) => inputFilterEventFired = true;
-            reader.RowCounterChanged += (sender, args) => rowCounterEventFired = true;
+            reader.RowCountChanged += (sender, args) => rowCountEventFired = true;
+            reader.RowsReadChanged += (sender, args) => rowsReadEventFired = true;
             processor.CitationsCountChanged += (sender, args) => citationEventFired = true;
             processor.RowsToWriteChanged += (sender, args) => rowsToWriteEventFired = true;
             writer.OutputPathChanged += (sender, args) => outputFileEventFired = true;
@@ -136,7 +141,8 @@ namespace IntegrationTests
             inputFilterEventFired.ShouldBeTrue();
             outputFileEventFired.ShouldBeTrue();
             rowsWrittenEventFired.ShouldBeTrue();
-            rowCounterEventFired.ShouldBeTrue();
+            rowCountEventFired.ShouldBeTrue();
+            rowsReadEventFired.ShouldBeTrue();
             reader.RowCount.ShouldEqual(processor.Citations);
             processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count());
             writer.RowsWritten.ShouldEqual(processor.RowsToWrite);
@@ -162,7 +168,7 @@ namespace IntegrationTests
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             _reader.ReadWorkSheet();
-            _reader.RowCount.ShouldEqual(4);
+            _reader.RowsRead.ShouldEqual(4);
         }
     }
 }

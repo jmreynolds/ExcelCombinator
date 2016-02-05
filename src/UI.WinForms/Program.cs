@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Infrastructure.Modules;
+using Ninject;
 
 namespace UI.WinForms
 {
     static class Program
     {
+        private static StandardKernel kernel;
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +20,14 @@ namespace UI.WinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Bootstrap();
+            Application.Run(kernel.Get<MainForm>());
+        }
+
+        static void Bootstrap()
+        {
+            kernel = new StandardKernel(new NetOfficeModule());
+            kernel.Bind<MainForm>().ToSelf();
         }
     }
 }
