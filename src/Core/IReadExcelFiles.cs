@@ -13,7 +13,7 @@ namespace Core
         int RowCount { get; }
         event EventHandler RowsReadChanged;
         IEnumerable<string> ReadColumnNames();
-        Dictionary<int, IEnumerable<string>> ReadWorkSheet();
+        Dictionary<int, IEnumerable<RowItem>> ReadWorkSheet();
         event EventHandler RowCountChanged;
     }
 }

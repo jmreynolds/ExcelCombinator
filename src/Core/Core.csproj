@@ -47,6 +47,7 @@
     <Compile Include="IReadExcelFiles.cs" />
     <Compile Include="IWriteExcelFiles.cs" />
     <Compile Include="Models\CashBondForfitureOutput.cs" />
+    <Compile Include="Models\RowItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,7 +12,7 @@ namespace Core
         int RowsToWrite { get; }
         event EventHandler RowsToWriteChanged;
 
-        IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(Dictionary<int, IEnumerable<string>> origin);
+        IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(Dictionary<int, IEnumerable<RowItem>> origin);
         IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(IEnumerable<CashBondForfitureInput> input);
 
     }

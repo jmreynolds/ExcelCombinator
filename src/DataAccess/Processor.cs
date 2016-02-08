@@ -24,45 +24,76 @@ namespace DataAccess
         public event EventHandler CitationsCountChanged;
 
         public IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(
-            Dictionary<int, IEnumerable<string>> origin)
+            Dictionary<int, IEnumerable<RowItem>> origin)
         {
-         return   origin.Values
-                .Select(row => row.ToArray())
-                .Select(rowArray =>
-                    new CashBondForfitureInput
+            var foo = origin.Values
+                .Select(items =>
+                {
+                    var rowItems = items as RowItem[] ?? items.ToArray();
+                    return rowItems;
+                })
+                .ToList();
+            foreach (var rowArrays in foo)
+            {
+                var result = new CashBondForfitureInput();
+                foreach (var rowItem in rowArrays)
+                {
+                    var columnName = rowItem.ColumnName;
+                    var rowValue = rowItem.Value;
+                    switch (columnName)
                     {
-                        OffenseDate = rowArray[0],
-                        CitationNumber = rowArray[1],
-                        Name = rowArray[2],
-                        DateOfBirth = rowArray[3],
-                        Address = rowArray[4],
-                        AddressLine2 = rowArray[5],
-                        Offense = rowArray[6],
-                        Final = rowArray[7],
-                        DispositionDate = rowArray[8],
-                        LastHearingDate = rowArray[9],
-                        Court = rowArray[10],
-                        LastHearingCode = rowArray[11],
-                        Juvenile = rowArray[12],
-                        DispOper = rowArray[13]
-                    });
+                        case "Offense Date":
+                            result.OffenseDate = rowValue;
+                            break;
+                        case "Citationýnumber":
+                            result.CitationNumber = rowValue;
+                            break;
+                        case "Name":
+                            result.Name = rowValue;
+                            break;
+                        case "Address":
+                            result.Address = rowValue;
+                            break;
+                        case "City, St Zip":
+                            result.AddressLine2 = rowValue;
+                            break;
+                        case "Offense":
+                            result.Offense = rowValue;
+                            break;
+                        case "Juvenile":
+                            result.Juvenile = rowValue;
+                            break;
+                        case "Disp Oper":
+                            result.DispOper = rowValue;
+                            break;
+                        case "Bf Status Date":
+                            result.DispositionDate = rowValue;
+                            break;
+                        default:
+                            throw new ArgumentException($"Invalid column: {columnName}.");
+                    }
+                }
+                yield return result;
+            }
         }
 
-        public IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(IEnumerable<CashBondForfitureInput> input)
+
+        public IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(
+            IEnumerable<CashBondForfitureInput> input)
         {
             Citations = 0;
-            CashBondForfitureOutputCompare comparer = new CashBondForfitureOutputCompare();
+            var comparer = new CashBondForfitureOutputCompare();
             var rows = input.ToList();
-            List<CashBondForfitureOutput> result = new List<CashBondForfitureOutput>();
+            var result = new List<CashBondForfitureOutput>();
             foreach (var row in rows)
             {
-                var newItem = new CashBondForfitureOutput()
+                var newItem = new CashBondForfitureOutput
                 {
                     Name = row.Name,
                     Address = row.Address,
                     AddressLine2 = row.AddressLine2,
                     DateOfBirth = row.DateOfBirth,
-                    DispositionDate = row.DispositionDate,
+                    DispositionDate = row.DispositionDate
                 };
 
                 CashBondForfitureOutput existingItem = null;
@@ -89,7 +120,7 @@ namespace DataAccess
             get { return _rowsToWrite; }
             private set
             {
-                _rowsToWrite = value; 
+                _rowsToWrite = value;
                 RowsToWriteChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -104,7 +135,8 @@ namespace DataAccess
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
 
-            return x.Name == y.Name && x.Address == y.Address && x.AddressLine2 == y.AddressLine2 && x.DateOfBirth == y.DateOfBirth;
+            return x.Name == y.Name && x.Address == y.Address && x.AddressLine2 == y.AddressLine2 &&
+                   x.DateOfBirth == y.DateOfBirth;
         }
 
         public int GetHashCode(CashBondForfitureOutput obj)

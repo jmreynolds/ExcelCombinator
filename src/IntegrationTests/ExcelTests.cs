@@ -64,7 +64,7 @@ namespace IntegrationTests
             _reader.InputFile = inputPath;
             var result = _reader.ReadWorkSheet().ToList();
             result.Count.ShouldEqual(4);
-            result[2].Value.First().ShouldEqual("Row2Col1");
+            result[2].Value.First().Value.ShouldEqual("Row2Col1");
         }
 
         [Test, Category("Integration")]
@@ -109,7 +109,7 @@ namespace IntegrationTests
             var reader = Kernel.Get<IReadExcelFiles>();
             var processor = Kernel.Get<IProcessor>();
             var writer = Kernel.Get<IWriteExcelFiles>();
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\SampleData.xlsx";
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
             var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\SampleData_Output.xlsx";
             var citationEventFired = false;
             var rowsToWriteEventFired = false;
