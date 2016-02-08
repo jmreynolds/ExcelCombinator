@@ -23,35 +23,35 @@ namespace UnitTests
             Fixture.Customize(new AutoMoqCustomization());
         }
 
-        protected Dictionary<int, IEnumerable<string>> GetSampleInputDictionary()
-        {
-            var sampleFileInput =
-                new Dictionary<int, IEnumerable<string>>
-                {
-                    [1] =
-                        new[]
-                        {
-                            "8 / 25 / 2014", "18763910.1", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-                            "EL PASO, TX 79905", "MVI / NO OR EXP STICKER / AUTO", "BF", "1 / 26 / 2016",
-                            "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
-                        },
-                    [2] =
-                        new[]
-                        {
-                            "8 / 25 / 2014", "18763910.2", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-                            "EL PASO, TX 79905", "DL / NO OR EXP OPER LIC", "BF", "1 / 26 / 2016", "1 / 26 / 2016", "2",
-                            "TD", "50", "0", "MUNI80800"
-                        },
-                    [3] =
-                        new[]
-                        {
-                            "8 / 25 / 2014", "18763910.3", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-                            "EL PASO, TX 79905", "FTMFR - Fail to maintain fin resp", "BF",  "1 / 26 / 2016",
-                            "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
-                        }
-                };
-            return sampleFileInput;
-        }
+        //protected Dictionary<int, IEnumerable<RowItem>> GetSampleInputDictionary()
+        //{
+        //    var sampleFileInput =
+        //        new Dictionary<int, IEnumerable<RowItem>>
+        //        {
+        //            [1] =
+        //                new[]
+        //                {
+        //                    "8 / 25 / 2014", "18763910.1", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
+        //                    "EL PASO, TX 79905", "MVI / NO OR EXP STICKER / AUTO", "BF", "1 / 26 / 2016",
+        //                    "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
+        //                },
+        //            [2] =
+        //                new[]
+        //                {
+        //                    "8 / 25 / 2014", "18763910.2", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
+        //                    "EL PASO, TX 79905", "DL / NO OR EXP OPER LIC", "BF", "1 / 26 / 2016", "1 / 26 / 2016", "2",
+        //                    "TD", "50", "0", "MUNI80800"
+        //                },
+        //            [3] =
+        //                new[]
+        //                {
+        //                    "8 / 25 / 2014", "18763910.3", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
+        //                    "EL PASO, TX 79905", "FTMFR - Fail to maintain fin resp", "BF",  "1 / 26 / 2016",
+        //                    "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
+        //                }
+        //        };
+        //    return sampleFileInput;
+        //}
 
         protected List<CashBondForfitureInput> GetBondForfitureInputsSample()
         {
