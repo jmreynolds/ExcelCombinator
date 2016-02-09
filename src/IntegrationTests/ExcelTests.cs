@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Core;
-using Core.Models;
 using DataAccess;
-using Moq;
 using Ninject;
 using NUnit.Framework;
 using Should;
