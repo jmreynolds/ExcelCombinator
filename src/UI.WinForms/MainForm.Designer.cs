@@ -161,7 +161,7 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -179,7 +179,7 @@
             this.Controls.Add(this.tbOutput);
             this.Controls.Add(this.tbInput);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Excel Combinator";
             this.ResumeLayout(false);
             this.PerformLayout();
 
