@@ -37,8 +37,8 @@ namespace UnitTests
             GetTestInputList();
             IProcessor processor = new Processor();
             var result = processor.MapToCashBondForfitureOutput(SampleInputList);
-            result.Count().ShouldEqual(2);
-            result.First().Citations.Count.ShouldEqual(2);
+            result.Count().ShouldEqual(3);
+            result.First().Citations.Count.ShouldEqual(1);
         }
 
         [Test, Category("Unit")]

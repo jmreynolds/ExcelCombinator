@@ -26,7 +26,7 @@ namespace UI.WinForms
         {
             _reader.InputFileChanged += OnInputFileChanged;
             _reader.RowsReadChanged += (sender, args) => prgBarReading.Value = _reader.RowsRead;
-            _reader.RowCountChanged += (sender, args) => prgBarReading.Maximum = _reader.RowCount;
+            _reader.RowCountChanged += (sender, args) => prgBarReading.Maximum = _reader.RowCount-1;
             _processor.RowsToWriteChanged += (sender, args) => prgBarWriting.Maximum = _processor.RowsToWrite;
             _writer.RowsWrittenChanged += (sender, args) => prgBarWriting.Value = _writer.RowsWritten;
         }

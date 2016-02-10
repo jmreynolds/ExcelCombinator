@@ -85,8 +85,10 @@ namespace DataAccess
             var comparer = new CashBondForfitureOutputCompare();
             var rows = input.ToList();
             var result = new List<CashBondForfitureOutput>();
-            foreach (var row in rows)
+
+            for (int rowIndex = 0; rowIndex < rows.Count; rowIndex++)
             {
+                var row = rows[rowIndex];
                 var newItem = new CashBondForfitureOutput
                 {
                     Name = row.Name,
@@ -96,9 +98,7 @@ namespace DataAccess
                     DispositionDate = row.DispositionDate
                 };
 
-                CashBondForfitureOutput existingItem = null;
-
-                existingItem = result.FirstOrDefault(x => comparer.Equals(x, newItem) && x.Citations.Count <= 7);
+                var existingItem = result.FirstOrDefault(x => comparer.Equals(x, newItem) && x.Citations.Count <= 7);
                 if (existingItem != null)
                 {
                     existingItem.Citations.Add(new Citation {CitationNumber = row.CitationNumber, Offense = row.Offense});
