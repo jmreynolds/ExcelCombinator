@@ -57,11 +57,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="ExcelBase.cs" />
-    <Compile Include="ReadExcelFiles.cs" />
+    <Compile Include="ReadExcelFileProcessor.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Processor.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadExcelFiles.cs" />
     <Compile Include="WriteExcelFiles.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,25 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Core.Models;
+using NetOffice.ExcelApi.Enums;
 
 namespace DataAccess
 {
     public class WriteExcelFiles : ExcelBase, IWriteExcelFiles
     {
-        private string _outputPath;
         private int _rowsWritten;
-
-        public string OutputPath
-        {
-            get { return _outputPath; }
-            set
-            {
-                _outputPath = value; 
-                OutputPathChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler OutputPathChanged;
 
         public int RowsWritten
         {
@@ -37,65 +25,57 @@ namespace DataAccess
 
         public void WriteToExcelFile(IEnumerable<CashBondForfitureOutput> output)
         {
-            OpenWorksheet();
 
             var rows = output.ToArray();
-
-            SetColumnNames();
-            RowsWritten = 0;
-            for (var i = 0; i < rows.Length; i++)
+            var rowCount = rows.Length;
+            object[,] range = new object[rowCount,18];
+            range = SetColumnNames(range);
+            RowsWritten = 1;
+            for (var i = 1; i < rowCount; i++)
             {
-                var rowIndex = i + 2;
-                Worksheet.Cells[rowIndex, 1].Value = rows[i].Name;
-                Worksheet.Cells[rowIndex, 2].Value = rows[i].Address;
-                Worksheet.Cells[rowIndex, 3].Value = rows[i].AddressLine2;
+                var rowIndex = i;
+                range.SetValue(rows[i].Name, rowIndex, 0);
+                range.SetValue(rows[i].Address, rowIndex, 1);
+                range.SetValue(rows[i].AddressLine2, rowIndex, 2);
+
                 var citations = rows[i].Citations;
-                var citNum = 4;
-                var offNum = 5;
+                var citNum = 3;
+                var offNum = 4;
                 foreach (Citation t in citations)
                 {
-                    Worksheet.Cells[rowIndex, citNum].Value = t.CitationNumber;
-                    Worksheet.Cells[rowIndex, offNum].Value = t.Offense;
+                    range.SetValue(t.CitationNumber, rowIndex, citNum);
+                    range.SetValue(t.Offense, rowIndex, offNum);
                     citNum = citNum + 2;
                     offNum = offNum + 2;
                 }
-                Worksheet.Cells[rowIndex, 18].Value = rows[i].DispositionDate;
+                range.SetValue(rows[i].DispositionDate, rowIndex, 17);
                 RowsWritten++;
             }
-
-            Worksheet.Name = "Output";
-            Workbook.SaveAs(OutputPath);
-            KillExcel();
-        }
-
-        private void SetColumnNames()
-        {
-            Worksheet.Cells[1, 1].Value = "Name";
-            Worksheet.Cells[1, 2].Value = "Address";
-            Worksheet.Cells[1, 3].Value = "City, ST Zip";
-            Worksheet.Cells[1, 4].Value = "Citation Number 1";
-            Worksheet.Cells[1, 5].Value = "Offense 1";
-            Worksheet.Cells[1, 6].Value = "Citation Number 2";
-            Worksheet.Cells[1, 7].Value = "Offense  2";
-            Worksheet.Cells[1, 8].Value = "Citation Number 3";
-            Worksheet.Cells[1, 9].Value = "Offense 3";
-            Worksheet.Cells[1, 10].Value = "Citation Number 4";
-            Worksheet.Cells[1, 11].Value = "Offense 4";
-            Worksheet.Cells[1, 12].Value = "Citation Number 5";
-            Worksheet.Cells[1, 13].Value = "Offense 5";
-            Worksheet.Cells[1, 14].Value = "Citation Number 6";
-            Worksheet.Cells[1, 15].Value = "Offense 6";
-            Worksheet.Cells[1, 16].Value = "Citation Number 7";
-            Worksheet.Cells[1, 17].Value = "Offense 7";
-            Worksheet.Cells[1, 18].Value = "Disposition Date";
+            SaveRangeToExcelFile(range);
         }
 
 
-        protected void OpenWorksheet()
+        private object[,] SetColumnNames(object[,] range)
         {
-            Application = new NetOffice.ExcelApi.Application();
-            Workbook = Application.Workbooks.Add();
-            Worksheet = (NetOffice.ExcelApi.Worksheet) Workbook.Sheets.First();
+            range.SetValue("Name",0,0);
+            range.SetValue( "Address", 0, 1);
+            range.SetValue( "City, ST Zip", 0, 2);
+            range.SetValue( "Citation Number 1", 0, 3);
+            range.SetValue( "Offense 1", 0, 4);
+            range.SetValue( "Citation Number 2", 0,5);
+            range.SetValue( "Offense  2", 0, 6);
+            range.SetValue( "Citation Number 3", 0, 7);
+            range.SetValue( "Offense 3", 0, 8);
+            range.SetValue( "Citation Number 4", 0, 9);
+            range.SetValue( "Offense 4", 0, 10);
+            range.SetValue( "Citation Number 5", 0, 11);
+            range.SetValue( "Offense 5", 0, 12);
+            range.SetValue( "Citation Number 6", 0, 13);
+            range.SetValue( "Offense 6", 0, 14);
+            range.SetValue( "Citation Number 7", 0, 15);
+            range.SetValue( "Offense 7", 0, 16);
+            range.SetValue("Disposition Date", 0, 17);
+            return range;
         }
     }
 }

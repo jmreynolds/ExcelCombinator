@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Core;
-using Core.Models;
 using DataAccess;
-using Moq;
 using Ninject;
 using NUnit.Framework;
 using Should;
@@ -59,12 +55,31 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Should_Read_Full_WorkSheet()
         {
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             var result = _reader.ReadWorkSheet().ToList();
-            result.Count.ShouldEqual(4);
-            result[2].Value.First().Value.ShouldEqual("Row2Col1");
+            result.Count.ShouldEqual(432);
+
+            result.ShouldNotBeNull();
+            var keyValuePairs = result
+                .Where(x => x.Key == 2);
+            keyValuePairs
+                .ShouldNotBeNull();
+            var enumerable = keyValuePairs
+                .Select(x => x.Value);
+            enumerable
+                .ShouldNotBeNull();
+            var firstOrDefault = enumerable
+                .FirstOrDefault();
+            firstOrDefault
+                .ShouldNotBeNull();
+            var rowItem = firstOrDefault
+                .FirstOrDefault(x => x.ColumnName == "Offense Date");
+            rowItem
+                .ShouldNotBeNull();
+            rowItem
+                .Value.ShouldStartWith(@"1/14/2016");
         }
 
         [Test, Category("Integration")]
@@ -91,7 +106,7 @@ namespace IntegrationTests
         public void RowCountChanged_Event_Should_Fire()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
             reader.InputFile = inputPath;
             var rowsReadEventFired = false;
             var rowsCountEventFired = false;
@@ -100,7 +115,7 @@ namespace IntegrationTests
             reader.ReadWorkSheet();
             rowsReadEventFired.ShouldBeTrue();
             rowsCountEventFired.ShouldBeTrue();
-            reader.RowsRead.ShouldEqual(4);
+            reader.RowsRead.ShouldEqual(432);
         }
 
         [Test, Category("Integration")]
@@ -110,7 +125,7 @@ namespace IntegrationTests
             var processor = Kernel.Get<IProcessor>();
             var writer = Kernel.Get<IWriteExcelFiles>();
             var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
-            var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\SampleData_Output.xlsx";
+            var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx";
             var citationEventFired = false;
             var rowsToWriteEventFired = false;
             var inputFilterEventFired = false;
@@ -143,9 +158,10 @@ namespace IntegrationTests
             rowsWrittenEventFired.ShouldBeTrue();
             rowCountEventFired.ShouldBeTrue();
             rowsReadEventFired.ShouldBeTrue();
-            reader.RowCount.ShouldEqual(processor.Citations);
-            processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count());
-            writer.RowsWritten.ShouldEqual(processor.RowsToWrite);
+            reader.RowCount.ShouldEqual((reader.RowsRead + 1), "Rows Read don't match Rows Available");
+            reader.RowsRead.ShouldEqual(processor.Citations, "Rows Read don't match Citations Printed");
+            processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count(), "Rows don't match output stream");
+            writer.RowsWritten.ShouldEqual(processor.RowsToWrite, "Rows out don't add up");
         }
 
 
@@ -164,11 +180,11 @@ namespace IntegrationTests
         [Test, Category("Integration")]
         public void Reader_Should_Get_RowCount()
         {
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\WorksheetTest.xlsx";
+            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             _reader.ReadWorkSheet();
-            _reader.RowsRead.ShouldEqual(4);
+            _reader.RowsRead.ShouldEqual(432);
         }
     }
 }

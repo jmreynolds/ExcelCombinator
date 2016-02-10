@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using Core;
 using Core.Models;
@@ -9,35 +8,19 @@ namespace DataAccess
 {
     public class ReadExcelFiles : ExcelBase, IReadExcelFiles
     {
-        private string _inputFile;
-        
-
-        public string InputFile
-        {
-            get { return _inputFile; }
-            set
-            {
-                _inputFile = value; 
-                InputFileChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler InputFileChanged;
-
-        private int _rowsRead;
         private int _rowCount;
+        private int _rowsRead;
 
         public int RowCount
         {
             get { return _rowCount; }
             private set
             {
-                _rowCount = value; 
+                _rowCount = value;
                 RowCountChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public event EventHandler RowCountChanged;
         public int RowsRead
         {
             get { return _rowsRead; }
@@ -49,6 +32,8 @@ namespace DataAccess
         }
 
         public event EventHandler RowsReadChanged;
+
+        public event EventHandler RowCountChanged;
 
         public IEnumerable<string> ReadColumnNames()
         {
@@ -74,24 +59,31 @@ namespace DataAccess
             return columns;
         }
 
-        public virtual Dictionary<int, IEnumerable<RowItem>> ReadWorkSheet()
+        public Dictionary<int, IEnumerable<RowItem>> ReadWorkSheet() => ReadRange(ReadRange());
+
+        private Dictionary<int, IEnumerable<RowItem>> ReadRange(object[,] range)
         {
+            if (range == null) throw new ArgumentException(nameof(range));
+
+
+            RowCount = range.GetLength(0);
+            var colCount = range.GetLength(1);
+
+
             // where int is the row number and IEnumerable is the Row content
             Dictionary<int, IEnumerable<RowItem>> rows = new Dictionary<int, IEnumerable<RowItem>>();
+
             try
             {
-                OpenWorksheet(InputFile);
-                var colCount = Worksheet.UsedRange.Cells.Columns.Count;
-                RowCount = Worksheet.UsedRange.Cells.Rows.Count;
                 RowsRead = 0; // We're not counting the Header...
-                Dictionary<int,string> columnNames = new Dictionary<int, string>();
+                Dictionary<int, string> columnNames = new Dictionary<int, string>();
                 for (int rowNum = 1; rowNum <= RowCount; rowNum++)
                 {
                     if (rowNum == 1)
                     {
                         for (int colNum = 1; colNum <= colCount; colNum++)
                         {
-                            var colName = Worksheet.UsedRange.Cells[rowNum, colNum].Text.ToString();
+                            var colName = range.GetValue(rowNum, colNum).ToString();
                             if (colName == "Offense Date") columnNames.Add(colNum, colName);
                             if (colName == "Citationýnumber") columnNames.Add(colNum, colName);
                             if (colName == "Name") columnNames.Add(colNum, colName);
@@ -112,9 +104,8 @@ namespace DataAccess
                                 new RowItem
                                 {
                                     ColumnName = columnName.Value,
-                                    Value = Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
+                                    Value = range.GetValue(rowNum, columnName.Key).ToString() //Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
                                 }).ToList();
-
                         rows.Add(rowNum, row);
                         RowsRead++;
                     }
@@ -124,20 +115,7 @@ namespace DataAccess
             {
                 throw;
             }
-            finally
-            {
-                KillExcel();
-            }
-            
             return rows.Where(pair => pair.Key > 1).ToDictionary(x => x.Key, x => x.Value);
-        }
-
-
-        protected void OpenWorksheet(string fileName)
-        {
-            Application = new NetOffice.ExcelApi.Application();
-            Workbook = Application.Workbooks.Open(fileName);
-            Worksheet = (NetOffice.ExcelApi.Worksheet) Workbook.Sheets.First();
         }
     }
 }

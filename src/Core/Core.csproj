@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="IHaveProgressIndicators.cs" />
     <Compile Include="IProcessor.cs" />
     <Compile Include="Models\CashBondForfitureInput.cs" />
@@ -48,7 +51,9 @@
     <Compile Include="IWriteExcelFiles.cs" />
     <Compile Include="Models\CashBondForfitureOutput.cs" />
     <Compile Include="Models\RowItem.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

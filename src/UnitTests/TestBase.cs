@@ -189,6 +189,13 @@ namespace UnitTests
 
         protected void GetTestInputList()
         {
+            var header = Fixture.Build<CashBondForfitureInput>()
+                .WithAutoProperties()
+                .With(x => x.Name, "Name")
+                .With(x => x.Address, "Address")
+                .With(x => x.AddressLine2, "City, St Zip")
+                .With(x => x.DateOfBirth, "Date Of Birth")
+                .Create();
             var cb1 = Fixture.Build<CashBondForfitureInput>()
                 .WithAutoProperties()
                 .With(x => x.Name, "One")
@@ -206,7 +213,7 @@ namespace UnitTests
             var cb3 = Fixture.Build<CashBondForfitureInput>()
                 .WithAutoProperties()
                 .Create();
-            SampleInputList = new List<CashBondForfitureInput> {cb1, cb2, cb3};
+            SampleInputList = new List<CashBondForfitureInput> {header, cb1, cb2, cb3};
         }
     }
 }
