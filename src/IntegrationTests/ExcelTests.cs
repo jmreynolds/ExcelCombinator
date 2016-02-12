@@ -102,7 +102,7 @@ namespace IntegrationTests
             eventFired.ShouldBeTrue();
         }
 
-        [Test, Category("Integration")]
+        [Test, Category("Interop")]
         public void RowCountChanged_Event_Should_Fire()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
@@ -118,7 +118,7 @@ namespace IntegrationTests
             reader.RowsRead.ShouldEqual(432);
         }
 
-        [Test, Category("Integration")]
+        [Test, Category("Interop")]
         public void FullStackTest()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
@@ -165,7 +165,7 @@ namespace IntegrationTests
         }
 
 
-        [Test, Category("Integration")]
+        [Test, Category("Interop")]
         public void Should_Write_An_Excel_File_From_A_List()
         {
             Bootstrap();
@@ -177,7 +177,7 @@ namespace IntegrationTests
             FileAssert.Exists(outputPath);
         }
 
-        [Test, Category("Integration")]
+        [Test, Category("Interop")]
         public void Reader_Should_Get_RowCount()
         {
             var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
