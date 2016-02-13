@@ -6,7 +6,7 @@ namespace UnitTests.Extensions
 {
     public static class TestExtensions
     {
-        public static void ShouldNotHaveEmptyProperties(this object testObj)
+        public static void ShouldNotHaveNullProperties(this object testObj)
         {
             testObj.GetType()
                 ?.GetProperties()
@@ -14,7 +14,7 @@ namespace UnitTests.Extensions
                 ?.ForEach(x =>
                 {
                     x.ShouldNotBeNull();
-                    x.GetValue(testObj, null).ToString().ShouldNotBeEmpty();
+                    x.GetValue(testObj, null).ToString().ShouldNotBeNull();
                 });
         }
     }

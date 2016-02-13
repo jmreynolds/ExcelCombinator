@@ -30,7 +30,7 @@ namespace UnitTests
             result.Count().ShouldEqual(3);
             var input = result.First();
             input.ShouldNotBeNull();
-            input.ShouldNotHaveEmptyProperties();
+            input.ShouldNotHaveNullProperties();
         }
 
         [Test, Category("Unit")]
