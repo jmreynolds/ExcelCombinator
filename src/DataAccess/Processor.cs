@@ -71,7 +71,9 @@ namespace DataAccess
                             result.DispositionDate = rowValue;
                             break;
                         default:
-                            throw new ArgumentException($"Invalid column: {columnName}.");
+                            //throw new ArgumentException($"Invalid column: {columnName}.");
+                            //TODO - JMR - How should I handle extra columns???
+                            break;
                     }
                 }
                 yield return result;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Core.Extensions;
 using Core.Models;
 
 namespace Core.EqualityImplementations
@@ -11,14 +12,14 @@ namespace Core.EqualityImplementations
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
 
-            var xName = GetStringValue(x, nameof(x.Name));
-            var yName = GetStringValue(y, nameof(y.Name));
-            var xAddr = GetStringValue(x, nameof(x.Address));
-            var yAddr = GetStringValue(y, nameof(y.Address));
-            var xAddr2 = GetStringValue(x, nameof(x.AddressLine2));
-            var yAddr2 = GetStringValue(y, nameof(y.AddressLine2));
-            var xDob = GetStringValue(x, nameof(x.DateOfBirth));
-            var yDob = GetStringValue(y, nameof(y.DateOfBirth));
+            var xName = x.GetStringValue(nameof(x.Name));
+            var yName = y.GetStringValue(nameof(y.Name));
+            var xAddr = x.GetStringValue(nameof(x.Address));
+            var yAddr = y.GetStringValue(nameof(y.Address));
+            var xAddr2 = x.GetStringValue(nameof(x.AddressLine2));
+            var yAddr2 = y.GetStringValue(nameof(y.AddressLine2));
+            var xDob = x.GetStringValue(nameof(x.DateOfBirth));
+            var yDob = y.GetStringValue(nameof(y.DateOfBirth));
 
             return xName == yName 
                 && xAddr == yAddr 
@@ -26,13 +27,6 @@ namespace Core.EqualityImplementations
                 && xDob == yDob;
         }
 
-        private static string GetStringValue(CashBondForfitureOutput x, string propName)
-        {
-            string propValue = x.GetType().GetProperty(propName).GetValue(x, null).ToString();
-            var values = propValue.Split(' ').Where(s => !string.IsNullOrWhiteSpace(s));
-            var value = string.Join(" ", values);
-            return value;
-        }
 
         
         

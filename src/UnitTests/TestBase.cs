@@ -22,37 +22,7 @@ namespace UnitTests
             Fixture = new Fixture();
             Fixture.Customize(new AutoMoqCustomization());
         }
-
-        //protected Dictionary<int, IEnumerable<RowItem>> GetSampleInputDictionary()
-        //{
-        //    var sampleFileInput =
-        //        new Dictionary<int, IEnumerable<RowItem>>
-        //        {
-        //            [1] =
-        //                new[]
-        //                {
-        //                    "8 / 25 / 2014", "18763910.1", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-        //                    "EL PASO, TX 79905", "MVI / NO OR EXP STICKER / AUTO", "BF", "1 / 26 / 2016",
-        //                    "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
-        //                },
-        //            [2] =
-        //                new[]
-        //                {
-        //                    "8 / 25 / 2014", "18763910.2", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-        //                    "EL PASO, TX 79905", "DL / NO OR EXP OPER LIC", "BF", "1 / 26 / 2016", "1 / 26 / 2016", "2",
-        //                    "TD", "50", "0", "MUNI80800"
-        //                },
-        //            [3] =
-        //                new[]
-        //                {
-        //                    "8 / 25 / 2014", "18763910.3", "ALVAREZ, EUNICE", "11 / 19 / 1990", "3316 ROSA",
-        //                    "EL PASO, TX 79905", "FTMFR - Fail to maintain fin resp", "BF",  "1 / 26 / 2016",
-        //                    "1 / 26 / 2016", "2", "TD", "50", "0", "MUNI8080"
-        //                }
-        //        };
-        //    return sampleFileInput;
-        //}
-
+        
         protected List<CashBondForfitureInput> GetBondForfitureInputsSample()
         {
             var result = new List<CashBondForfitureInput>
@@ -67,11 +37,7 @@ namespace UnitTests
                     Address = "111",
                     AddressLine2 = "222",
                     Offense = "Offense 1",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "1",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
                 },
@@ -84,11 +50,7 @@ namespace UnitTests
                     Address = "111",
                     AddressLine2 = "222",
                     Offense = "Offense 2",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "1",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
                 },
@@ -101,11 +63,7 @@ namespace UnitTests
                     Address = "111",
                     AddressLine2 = "222",
                     Offense = "Offense 3",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "1",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
                 },
@@ -118,11 +76,7 @@ namespace UnitTests
                     Address = "222",
                     AddressLine2 = "333",
                     Offense = "Offense 1",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
                 },
@@ -135,11 +89,7 @@ namespace UnitTests
                     Address = "222",
                     AddressLine2 = "333",
                     Offense = "Offense 2",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "1",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
                 },
@@ -152,11 +102,7 @@ namespace UnitTests
                     Address = "333",
                     AddressLine2 = "444",
                     Offense = "Offense 1",
-                    Final = "1",
                     DispositionDate = "1/1/2015",
-                    LastHearingDate = "1/1/2015",
-                    Court = "1",
-                    LastHearingCode = "1",
                     Juvenile = "0",
                     DispOper = "1"
 
@@ -215,5 +161,24 @@ namespace UnitTests
                 .Create();
             SampleInputList = new List<CashBondForfitureInput> {header, cb1, cb2, cb3};
         }
+
+        protected Dictionary<int, IEnumerable<RowItem>> GetSampleInputDictionary() => new Dictionary<int, IEnumerable<RowItem>>
+        {
+            [0] = new List<RowItem>
+            {
+                new RowItem() {ColumnName = "Column1", Value = "Row1Value1"},
+                new RowItem() {ColumnName = "Column2", Value = "Row1Value2"}
+            },
+            [1] = new List<RowItem>
+            {
+                new RowItem() {ColumnName = "Column1", Value = "Row2Value1"},
+                new RowItem() {ColumnName = "Column2", Value = "Row2Value2"}
+            },
+            [2] = new List<RowItem>
+            {
+                new RowItem() {ColumnName = "Column1", Value = "Row3Value1"},
+                new RowItem() {ColumnName = "Column2", Value = "Row3Value2"}
+            }
+        };
     }
 }
