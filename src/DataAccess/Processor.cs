@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Core.EqualityImplementations;
 using Core.Models;
 
 namespace DataAccess
@@ -70,7 +71,9 @@ namespace DataAccess
                             result.DispositionDate = rowValue;
                             break;
                         default:
-                            throw new ArgumentException($"Invalid column: {columnName}.");
+                            //throw new ArgumentException($"Invalid column: {columnName}.");
+                            //TODO - JMR - How should I handle extra columns???
+                            break;
                     }
                 }
                 yield return result;
@@ -126,26 +129,5 @@ namespace DataAccess
         }
 
         public event EventHandler RowsToWriteChanged;
-    }
-
-    public class CashBondForfitureOutputCompare : IEqualityComparer<CashBondForfitureOutput>
-    {
-        public bool Equals(CashBondForfitureOutput x, CashBondForfitureOutput y)
-        {
-            if (x == null && y == null) return true;
-            if (x == null || y == null) return false;
-
-            return x.Name == y.Name && x.Address == y.Address && x.AddressLine2 == y.AddressLine2 &&
-                   x.DateOfBirth == y.DateOfBirth;
-        }
-
-        public int GetHashCode(CashBondForfitureOutput obj)
-        {
-            var dob = obj.DateOfBirth.Trim().ToUpper().GetHashCode();
-            var name = obj.Name.Trim().ToUpper().GetHashCode();
-            var add1 = obj.Address.Trim().ToUpper().GetHashCode();
-            var add2 = obj.AddressLine2.Trim().ToUpper().GetHashCode();
-            return dob + name + add1 + add2;
-        }
     }
 }
