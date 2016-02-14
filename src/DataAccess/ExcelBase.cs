@@ -64,6 +64,7 @@ namespace DataAccess
             Range = Range.get_Resize(rowCount, colCount);
             Range.set_Value(XlRangeValueDataType.xlRangeValueDefault, range);
             Worksheet.Name = "Output";
+            Application.DisplayAlerts = false;
             Workbook.SaveAs(OutputPath);
             KillExcel();
 
