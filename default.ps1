@@ -21,6 +21,7 @@ properties {
     $setup_file = "$base_dir\SetupFiles\ExcelCombinatorSetup.msi"
     $installer_cmd_path = "C:\Program Files (x86)\Caphyon\Advanced Installer 12.7.1\bin\x86\AdvancedInstaller.com"
     $installer_project_file = "$base_dir\Installer\Installer.aip"
+    $zero29 = "$base_dir\Zero29\Zero29.exe"
 }
 
 task default -depends Init, CommonAssemblyInfo, Compile, Test
@@ -33,7 +34,7 @@ task Init {
 }
 task CommonAssemblyInfo {
     $version = get_semantic_version_number
-    #Update-AssemblyInfoFiles($version)
+    Update-AssemblyInfoFiles($version)
 }
 task Compile -depends Init, CommonAssemblyInfo {
     exec {  & msbuild /t:clean /v:q /nologo /p:Configuration=$projectConfig $source_dir\$projectName.sln }
@@ -48,11 +49,11 @@ task Test -depends Compile {
 	}
 }
 task Package -depends Compile {
-    Write-Output "Generating version $version of Installation Files to $setup_file"
+    Write-Output "Generating Installation Files to $setup_file"
     delete_file $setup_file
     exec{
         $version = get_semantic_version_number
-        & "$installer_cmd_path" /edit $installer_project_file /SetVersion $version
+        & "$installer_cmd_path" /edit $installer_project_file /SetVersion -fromfile $source_dir\UI.WinForms\bin\Release\UI.WinForms.exe
         & "$installer_cmd_path" /edit $installer_project_file /SetPackageName $setup_file
         & "$installer_cmd_path" /rebuild $installer_project_file
         # $ /rebuild [project_file_path]
@@ -66,43 +67,12 @@ function global:get_semantic_version_number(){
     $joined = $output -join "`n"
     $versionInfo = $joined | ConvertFrom-Json
     $result = $versionInfo.AssemblySemVer
-    Write-Output $version
-    return $result.Trim()
+    return $result
 }
 
 function global:Update-AssemblyInfoFiles ([string] $version) {
-    $version = $version -replace '\s',''
-    Write-Output "Updating Assembly to version $version"
-    $commonAssemblyInfo = "$source_dir\SharedAssemblyInfo.cs"
-    Write-Output "using directory file $commonAssemblyInfo"
-
-    $assemblyDescriptionPattern = 'AssemblyDescriptionAttribute\("(.*?)"\)'
-    $assemblyDescription = 'AssemblyDescriptionAttribute("'+ $env:buildlabel +'")';
-    $assemlyDescription = $assemblyDescription -replace '\s',''
-
-    $assemblyVersionPattern = 'AssemblyVersionAttribute\("[0-9]+(\.([0-9]+|\*)){1,4}"\)'
-    $assemblyVersion = 'AssemblyVersionAttribute("' + $version + '")'
-    $assemblyVersion = $assemblyVersion -replace '\s',''
-
-    $fileVersionPattern = 'AssemblyFileVersionAttribute\("[0-9]+(\.([0-9]+|\*)){1,4}"\)'
-    $fileVersion = 'AssemblyFileVersionAttribute("'+ $version +'")';
-    $fileVersion = $fileVersion -replace '\s',''
-    Write-Host $fileVersion
-
-    Get-ChildItem $source_dir -r -filter SharedAssemblyInfo.cs | ForEach-Object {
-        $filename = $_.Directory.ToString() + '\' + $_.Name
-        $filename + ' -> ' + $version
-
-        # If you are using a source control that requires to check-out files before
-        # modifying them, make sure to check-out the file here.
-        # For example, TFS will require the following command:
-        # tf checkout $filename
-
-        (Get-Content $commonAssemblyInfo) | ForEach-Object {
-            % {$_ -replace $assemblyVersionPattern, $assemblyVersion } |
-            % {$_ -replace $assemblyDescriptionPattern, $assemblyDescription } |
-            % {$_ -replace $fileVersionPattern, $fileVersion }
-        } | Set-Content $filename
+    exec{
+        & "$zero29" -a $version
     }
 }
 

@@ -12,10 +12,10 @@
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="ARPPRODUCTICON" Value="APPDIRExcelCombinator.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="Infocraft"/>
-    <ROW Property="ProductCode" Value="1033:{242F3016-4345-4E16-ACDB-D770E0C1C9D4} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{8EB6129D-39BB-40E7-9DB1-AB4437DD2861} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Excel Combinator"/>
-    <ROW Property="ProductVersion" Value="1.0.0.0" Type="32" TargetFile="UI.WinForms.exe_1"/>
+    <ROW Property="ProductVersion" Value="2.2.0.0" Type="32" TargetFile="UI.WinForms.exe_1"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{9369E482-F52F-48B8-A33E-B41A0E2F65FC}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
