@@ -5,8 +5,9 @@ Combine and Deduplicate excel data
 
 **Deduplicate based on:**
  - name
- - dob
+ - dob (if present)
  - address
+ - City, St Zip
 
 **Combine:**
  - Citation Number 
