@@ -89,9 +89,8 @@ namespace DataAccess
             var rows = input.ToList();
             var result = new List<CashBondForfitureOutput>();
 
-            for (int rowIndex = 0; rowIndex < rows.Count; rowIndex++)
+            foreach (var row in rows)
             {
-                var row = rows[rowIndex];
                 var newItem = new CashBondForfitureOutput
                 {
                     Name = row.Name,
