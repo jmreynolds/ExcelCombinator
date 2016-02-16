@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Threading;
 using Core;
 using DataAccess;
 using Ninject;
@@ -7,6 +9,7 @@ using Should;
 
 namespace IntegrationTests
 {
+    [TestFixture]
     public class ExcelTests : TestBase
     {
         private IReadExcelFiles _reader;
@@ -14,7 +17,17 @@ namespace IntegrationTests
         [SetUp]
         public void Setup()
         {
+            Thread.Sleep(5000);
             Bootstrap();
+        }
+        [TearDown]
+        public void TearDown()
+        {
+            Thread.Sleep(5000);
+            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx"))
+                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx");
+            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx"))
+                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx");
         }
 
         [Test, Category("BootStrap")]
@@ -142,14 +155,13 @@ namespace IntegrationTests
             processor.RowsToWriteChanged += (sender, args) => rowsToWriteEventFired = true;
             writer.OutputPathChanged += (sender, args) => outputFileEventFired = true;
             writer.RowsWrittenChanged += (sender, args) => rowsWrittenEventFired = true;
-
             reader.InputFile = inputPath;
             writer.OutputPath = outputPath;
             var worksheet = reader.ReadWorkSheet();
             var forfitureInputs = processor.MapToCashBondForfitureInput(worksheet);
             var forfitureOutputs = processor.MapToCashBondForfitureOutput(forfitureInputs).ToList();
             writer.WriteToExcelFile(forfitureOutputs);
-
+            
 
             citationEventFired.ShouldBeTrue();
             rowsToWriteEventFired.ShouldBeTrue();

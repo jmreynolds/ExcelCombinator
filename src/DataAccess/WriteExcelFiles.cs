@@ -28,27 +28,27 @@ namespace DataAccess
 
             var rows = output.ToArray();
             var rowCount = rows.Length;
-            object[,] range = new object[rowCount,18];
+            object[,] range = new object[rowCount+1,18];
             range = SetColumnNames(range);
-            RowsWritten = 1;
-            for (var i = 1; i < rowCount; i++)
+            RowsWritten = 0; // Don't count the column headers.
+            for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
             {
-                var rowIndex = i;
-                range.SetValue(rows[i].Name, rowIndex, 0);
-                range.SetValue(rows[i].Address, rowIndex, 1);
-                range.SetValue(rows[i].AddressLine2, rowIndex, 2);
+                var rangeIndex = rowIndex+1;
+                range.SetValue(rows[rowIndex].Name, rangeIndex, 0);
+                range.SetValue(rows[rowIndex].Address, rangeIndex, 1);
+                range.SetValue(rows[rowIndex].AddressLine2, rangeIndex, 2);
 
-                var citations = rows[i].Citations;
+                var citations = rows[rowIndex].Citations;
                 var citNum = 3;
                 var offNum = 4;
                 foreach (Citation t in citations)
                 {
-                    range.SetValue(t.CitationNumber, rowIndex, citNum);
-                    range.SetValue(t.Offense, rowIndex, offNum);
+                    range.SetValue(t.CitationNumber, rangeIndex, citNum);
+                    range.SetValue(t.Offense, rangeIndex, offNum);
                     citNum = citNum + 2;
                     offNum = offNum + 2;
                 }
-                range.SetValue(rows[i].DispositionDate, rowIndex, 17);
+                range.SetValue(rows[rowIndex].DispositionDate, rangeIndex, 17);
                 RowsWritten++;
             }
             SaveRangeToExcelFile(range);

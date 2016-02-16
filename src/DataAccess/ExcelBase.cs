@@ -19,7 +19,7 @@ namespace DataAccess
             get { return _outputPath; }
             set
             {
-                _outputPath = value; 
+                _outputPath = value;
                 OutputPathChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -64,7 +64,6 @@ namespace DataAccess
             Range = Range.get_Resize(rowCount, colCount);
             Range.set_Value(XlRangeValueDataType.xlRangeValueDefault, range);
             Worksheet.Name = "Output";
-            Application.DisplayAlerts = false;
             Workbook.SaveAs(OutputPath);
             KillExcel();
 
@@ -73,8 +72,8 @@ namespace DataAccess
         protected void OpenWorksheet(string fileName ="")
         {
             Application = new NetOffice.ExcelApi.Application();
-            Workbook = (string.IsNullOrWhiteSpace(fileName)) 
-                ? Application.Workbooks.Add() 
+            Workbook = (string.IsNullOrWhiteSpace(fileName))
+                ? Application.Workbooks.Add()
                 : Application.Workbooks.Open(fileName);
             Worksheet = (NetOffice.ExcelApi.Worksheet) Workbook.Sheets.First();
         }

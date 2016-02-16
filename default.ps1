@@ -45,7 +45,7 @@ task Compile -depends Init, CommonAssemblyInfo {
 task Test -depends Compile {
 	copy_all_assemblies_for_test $test_dir
 	exec {
-		& $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $test_dir\$integrationTestAssembly
+		& $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $test_dir\$integrationTestAssembly --where "cat != Interop"
 	}
 }
 task Package -depends Compile {
