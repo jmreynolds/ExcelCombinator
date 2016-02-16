@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Threading;
 using Core;
 using DataAccess;
 using Ninject;
@@ -7,6 +9,7 @@ using Should;
 
 namespace IntegrationTests
 {
+    [TestFixture]
     public class ExcelTests : TestBase
     {
         private IReadExcelFiles _reader;
@@ -14,7 +17,17 @@ namespace IntegrationTests
         [SetUp]
         public void Setup()
         {
+            Thread.Sleep(5000);
             Bootstrap();
+        }
+        [TearDown]
+        public void TearDown()
+        {
+            Thread.Sleep(5000);
+            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx"))
+                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx");
+            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx"))
+                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx");
         }
 
         [Test, Category("BootStrap")]
@@ -122,7 +135,6 @@ namespace IntegrationTests
         public void FullStackTest()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
-            var outputReader = Kernel.Get<IReadExcelFiles>();
             var processor = Kernel.Get<IProcessor>();
             var writer = Kernel.Get<IWriteExcelFiles>();
             var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
@@ -144,7 +156,6 @@ namespace IntegrationTests
             writer.OutputPathChanged += (sender, args) => outputFileEventFired = true;
             writer.RowsWrittenChanged += (sender, args) => rowsWrittenEventFired = true;
             reader.InputFile = inputPath;
-            outputReader.InputFile = outputPath;
             writer.OutputPath = outputPath;
             var worksheet = reader.ReadWorkSheet();
             var forfitureInputs = processor.MapToCashBondForfitureInput(worksheet);
@@ -163,8 +174,6 @@ namespace IntegrationTests
             reader.RowsRead.ShouldEqual(processor.Citations, "Rows Read don't match Citations Printed");
             processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count(), "Rows don't match output stream");
             writer.RowsWritten.ShouldEqual(processor.RowsToWrite, "Rows out don't add up");
-            outputReader.ReadWorkSheet();
-            outputReader.RowCount.ShouldEqual(328);
         }
 
 
