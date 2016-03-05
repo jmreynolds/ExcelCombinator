@@ -87,6 +87,9 @@ namespace DataAccess
                             var columnName = range.GetValue(rowNum, colNum).ToString();
                             switch (columnName)
                             {
+                                case "Citations":
+                                    // this is a hidden column that we don't use.
+                                    break;
                                 case "Offense Date":
                                     columnNames.Add(colNum, columnName);
                                     break;

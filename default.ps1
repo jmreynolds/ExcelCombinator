@@ -37,13 +37,16 @@ task CommonAssemblyInfo {
     Update-AssemblyInfoFiles($version)
 }
 task Compile -depends Init, CommonAssemblyInfo {
-    exec {  & msbuild /t:clean /v:q /nologo /p:Configuration=$projectConfig $source_dir\$projectName.sln }
+	exec{
+		Get-ChildItem -Path $source_dir -inc bin,obj -rec | Remove-Item -rec -force
+	} "Cleaning the solution failed - make sure VS is closed, and try unlocking the bin and obj folders."
+   exec {  & msbuild /t:clean /v:q /nologo /p:Configuration=$projectConfig $source_dir\$projectName.sln }
     delete_file $error_dir
     exec { & msbuild /t:build /v:q /nologo /p:Configuration=$projectConfig $source_dir\$projectName.sln
 		} "Compilation Failed"
 }
 task Test -depends Compile {
-	copy_all_assemblies_for_test $test_dir
+ 	copy_all_assemblies_for_test $test_dir
 	exec {
 		& $nunitPath\nunit3-console.exe $test_dir\$unitTestAssembly $test_dir\$integrationTestAssembly --where "cat != Interop"
 	}
@@ -122,4 +125,3 @@ function global:create_directory($directory_name)
 {
   mkdir $directory_name  -ErrorAction SilentlyContinue  | out-null
 }
-

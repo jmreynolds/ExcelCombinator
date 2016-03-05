@@ -102,7 +102,7 @@ namespace DataAccess
                 };
 
                 var existingItem = result.FirstOrDefault(x => comparer.Equals(x, newItem) && x.Citations.Count <= 7);
-                if (existingItem != null)
+                if (existingItem != null && existingItem.Citations.Count() < 7)
                 {
                     existingItem.Citations.Add(new Citation {CitationNumber = row.CitationNumber, Offense = row.Offense});
                     Citations++;
