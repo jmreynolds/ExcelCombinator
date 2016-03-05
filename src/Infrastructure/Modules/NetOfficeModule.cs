@@ -1,5 +1,6 @@
 ﻿using Core;
 using DataAccess;
+using Infrastructure.Logging;
 using Ninject.Modules;
 
 namespace Infrastructure.Modules
@@ -15,6 +16,7 @@ namespace Infrastructure.Modules
             Bind<IReadExcelFiles>().To<ReadExcelFiles>();
             Bind<IProcessor>().To<Processor>();
             Bind<IWriteExcelFiles>().To<WriteExcelFiles>();
+            Bind<ILog>().To<Logger>();
         }
     }
 }
