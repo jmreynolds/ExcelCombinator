@@ -166,18 +166,18 @@ namespace UnitTests
         {
             [0] = new List<RowItem>
             {
-                new RowItem() {ColumnName = "Column1", Value = "Row1Value1"},
-                new RowItem() {ColumnName = "Column2", Value = "Row1Value2"}
+                new RowItem() {ColumnName = "Name", Value = "Row1Value1"},
+                new RowItem() {ColumnName = "Address", Value = "Row1Value2"}
             },
             [1] = new List<RowItem>
             {
-                new RowItem() {ColumnName = "Column1", Value = "Row2Value1"},
-                new RowItem() {ColumnName = "Column2", Value = "Row2Value2"}
+                new RowItem() {ColumnName = "Name", Value = "Row2Value1"},
+                new RowItem() {ColumnName = "Address", Value = "Row2Value2"}
             },
             [2] = new List<RowItem>
             {
-                new RowItem() {ColumnName = "Column1", Value = "Row3Value1"},
-                new RowItem() {ColumnName = "Column2", Value = "Row3Value2"}
+                new RowItem() {ColumnName = "Name", Value = "Row3Value1"},
+                new RowItem() {ColumnName = "Address", Value = "Row3Value2"}
             }
         };
     }
