@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Core.Exceptions;
 using Core.Models;
 
 namespace DataAccess
@@ -83,17 +84,40 @@ namespace DataAccess
                     {
                         for (int colNum = 1; colNum <= colCount; colNum++)
                         {
-                            var colName = range.GetValue(rowNum, colNum).ToString();
-                            if (colName == "Offense Date") columnNames.Add(colNum, colName);
-                            if (colName == "Citationýnumber") columnNames.Add(colNum, colName);
-                            if (colName == "Name") columnNames.Add(colNum, colName);
-                            if (colName == "Address") columnNames.Add(colNum, colName);
-                            if (colName == "City, St Zip") columnNames.Add(colNum, colName);
-                            if (colName == "Offense") columnNames.Add(colNum, colName);
-                            if (colName == "Bf Status Date") columnNames.Add(colNum, colName);
-                            if (colName == "Juvenile") columnNames.Add(colNum, colName);
-                            if (colName == "Disp Oper") columnNames.Add(colNum, colName);
-                            //Bf row[6]
+                            var columnName = range.GetValue(rowNum, colNum).ToString();
+                            switch (columnName)
+                            {
+                                case "Offense Date":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Citationýnumber":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Name":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Address":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "City, St Zip":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Offense":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Bf Status Date":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Juvenile":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                case "Disp Oper":
+                                    columnNames.Add(colNum, columnName);
+                                    break;
+                                default:
+                                    string[] allowedColumns = new[] { "Offense Date", "Citationýnumber", "Name", "Address", "City, St Zip", "Offense", "Juvenile", "Disp Oper", "Bf Status Date", };
+                                    throw new InvalidColumnException($"Invalid column: {columnName}.", columnName, allowedColumns, null);
+                            }
                         }
 
                     }

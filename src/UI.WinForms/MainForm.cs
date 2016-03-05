@@ -2,20 +2,27 @@
 using System.IO;
 using System.Windows.Forms;
 using Core;
+using Core.Exceptions;
+// ReSharper disable LocalizableElement
 
 namespace UI.WinForms
 {
     public partial class MainForm : Form
     {
         private readonly IProcessor _processor;
+        private readonly ILog _logger;
         private readonly IReadExcelFiles _reader;
         private readonly IWriteExcelFiles _writer;
 
-        public MainForm(IReadExcelFiles reader, IWriteExcelFiles writer, IProcessor processor)
+        public MainForm(IReadExcelFiles reader, 
+            IWriteExcelFiles writer, 
+            IProcessor processor,
+            ILog logger)
         {
             _reader = reader;
             _writer = writer;
             _processor = processor;
+            _logger = logger;
 
             RegisterEvents();
 
@@ -69,10 +76,31 @@ namespace UI.WinForms
                 return;
             }
 
-            var worksheet = _reader.ReadWorkSheet();
-            var forfitureInput = _processor.MapToCashBondForfitureInput(worksheet);
-            var forfitureOutput = _processor.MapToCashBondForfitureOutput(forfitureInput);
-            _writer.WriteToExcelFile(forfitureOutput);
+            try
+            {
+                var worksheet = _reader.ReadWorkSheet();
+                var forfitureInput = _processor.MapToCashBondForfitureInput(worksheet);
+                var forfitureOutput = _processor.MapToCashBondForfitureOutput(forfitureInput);
+                _writer.WriteToExcelFile(forfitureOutput);
+            }
+            catch (InvalidColumnException ex)
+            {
+                _logger.Log(ex);
+                MessageBox.Show($"The format of the spreadsheet is invalid. " + Environment.NewLine +
+                                $"Column '{ex.InvalidColumnName}' is not normally present." + Environment.NewLine +
+                                $"Support Has Been Notified." + Environment.NewLine +
+                                $"Please Drop the data in DropBox for verification" + Environment.NewLine +
+                                $"and let the client know that it needs to be double checked.");
+                return;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(ex);
+                MessageBox.Show("There was a problem processing the file. " + Environment.NewLine +
+                                "Please drop it in DropBox and contact support.");
+
+
+            }
             lblComplete.Text = "Complete";
             lblComplete.Visible = true;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Core.EqualityImplementations;
+using Core.Exceptions;
 using Core.Models;
 
 namespace DataAccess
@@ -27,14 +28,14 @@ namespace DataAccess
         public IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(
             Dictionary<int, IEnumerable<RowItem>> origin)
         {
-            var foo = origin.Values
+            var incomingList = origin.Values
                 .Select(items =>
                 {
                     var rowItems = items as RowItem[] ?? items.ToArray();
                     return rowItems;
                 })
                 .ToList();
-            foreach (var rowArrays in foo)
+            foreach (var rowArrays in incomingList)
             {
                 var result = new CashBondForfitureInput();
                 foreach (var rowItem in rowArrays)
@@ -71,9 +72,9 @@ namespace DataAccess
                             result.DispositionDate = rowValue;
                             break;
                         default:
-                            //throw new ArgumentException($"Invalid column: {columnName}.");
-                            //TODO - JMR - How should I handle extra columns???
-                            break;
+                            string[] allowedColumns = new[] {"Offense Date","Citationýnumber","Name","Address","City, St Zip","Offense","Juvenile","Disp Oper","Bf Status Date",};
+                            throw new InvalidColumnException ($"Invalid column: {columnName}.", columnName, allowedColumns, null);
+                            
                     }
                 }
                 yield return result;
