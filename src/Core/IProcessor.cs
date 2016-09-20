@@ -8,12 +8,14 @@ namespace Core
     {
         int Citations { get; }
         event EventHandler CitationsCountChanged;
+        //int DuplicateItemsCount { get; }
+        //event EventHandler DuplicateItemsCountChanged;
 
         int RowsToWrite { get; }
         event EventHandler RowsToWriteChanged;
 
-        IEnumerable<CashBondForfitureInput> MapToCashBondForfitureInput(Dictionary<int, IEnumerable<RowItem>> origin);
-        IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(IEnumerable<CashBondForfitureInput> input);
+        IEnumerable<DynamicInput> MapDynamicInput(Dictionary<int, IEnumerable<RowItem>> origin);
+        IEnumerable<DynamicOutput> MapDynamicInputToDynamicOutput(IEnumerable<DynamicInput> input);
 
     }
 }

@@ -1,24 +1,35 @@
-﻿namespace Core.Models
-{
-    public class CashBondForfitureInput
-    {
-        public string OffenseDate { get; set; } = string.Empty;
-        public string CitationNumber { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string AddressLine2 { get; set; } = string.Empty;
-        public string Offense { get; set; } = string.Empty;
-        public string Juvenile { get; set; } = string.Empty;
-        public string DispOper { get; set; } = string.Empty;
-        public string DispositionDate { get; set; } = string.Empty;
+﻿using System.Collections.Generic;
 
-        // Not currently used
-        // will figure out how to make sure we
-        // incorporate dynamic stuff later.
-        public string LastHearingDate { get; set; } = string.Empty;
-        public string Court { get; set; } = string.Empty;
-        public string LastHearingCode { get; set; } = string.Empty;
-        public string DateOfBirth { get; set; } = string.Empty;
-        public string Final { get; set; }= string.Empty;
+namespace Core.Models
+{
+    public class CashBondForfitureInput : DynamicInput
+    {
+        
+        public CashBondForfitureInput()
+        {
+            DynamicItems = new List<DynamicItem>
+            {
+                new DynamicItem {ColumnName = "OffenseDate"},
+                new DynamicItem {ColumnName = "CitationNumber"},
+                new DynamicItem {ColumnName = "Name"},
+                new DynamicItem {ColumnName = "Address"},
+                new DynamicItem {ColumnName = "AddressLine2"},
+                new DynamicItem {ColumnName = "Offense"},
+                new DynamicItem {ColumnName = "Juvenile"},
+                new DynamicItem {ColumnName = "DispOper"},
+                new DynamicItem {ColumnName = "DispositionDate"},
+                new DynamicItem {ColumnName = "LastHearingDate"},
+                new DynamicItem {ColumnName = "Court"},
+                new DynamicItem {ColumnName = "LastHearingCode"},
+                new DynamicItem {ColumnName = "DateOfBirth"},
+                new DynamicItem {ColumnName = "Final"}
+            };
+        }
+
+        public CashBondForfitureInput(List<DynamicItem> items)
+        {
+            DynamicItems = items;
+        }
+
     }
 }

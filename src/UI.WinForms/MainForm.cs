@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using Core;
 using Core.Exceptions;
+using Core.Models;
+
 // ReSharper disable LocalizableElement
 
 namespace UI.WinForms
@@ -79,9 +82,10 @@ namespace UI.WinForms
             try
             {
                 var worksheet = _reader.ReadWorkSheet();
-                var forfitureInput = _processor.MapToCashBondForfitureInput(worksheet);
-                var forfitureOutput = _processor.MapToCashBondForfitureOutput(forfitureInput);
-                _writer.WriteToExcelFile(forfitureOutput);
+                var forfitureInput = _processor.MapDynamicInput(worksheet);
+                var forfitureOutput = _processor.MapDynamicInputToDynamicOutput(forfitureInput);
+                var foo = (IEnumerable<CashBondForfitureOutput>) forfitureOutput;
+                if (foo != null) _writer.WriteToExcelFile(foo);
             }
             catch (InvalidColumnException ex)
             {

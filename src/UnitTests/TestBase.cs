@@ -23,110 +23,11 @@ namespace UnitTests
             Fixture.Customize(new AutoMoqCustomization());
         }
         
-        protected List<CashBondForfitureInput> GetBondForfitureInputsSample()
-        {
-            var result = new List<CashBondForfitureInput>
-            {
-
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "1",
-                    Name = "One",
-                    DateOfBirth = "1/1/1981",
-                    Address = "111",
-                    AddressLine2 = "222",
-                    Offense = "Offense 1",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-                },
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "2",
-                    Name = "One",
-                    DateOfBirth = "1/1/1981",
-                    Address = "111",
-                    AddressLine2 = "222",
-                    Offense = "Offense 2",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-                },
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "3",
-                    Name = "One",
-                    DateOfBirth = "1/1/1981",
-                    Address = "111",
-                    AddressLine2 = "222",
-                    Offense = "Offense 3",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-                },
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "1",
-                    Name = "Two",
-                    DateOfBirth = "1/1/1981",
-                    Address = "222",
-                    AddressLine2 = "333",
-                    Offense = "Offense 1",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-                },
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "2",
-                    Name = "Two",
-                    DateOfBirth = "1/1/1981",
-                    Address = "222",
-                    AddressLine2 = "333",
-                    Offense = "Offense 2",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-                },
-                new CashBondForfitureInput
-                {
-                    OffenseDate = "1/1/2015",
-                    CitationNumber = "1",
-                    Name = "Three",
-                    DateOfBirth = "1/1/1981",
-                    Address = "333",
-                    AddressLine2 = "444",
-                    Offense = "Offense 1",
-                    DispositionDate = "1/1/2015",
-                    Juvenile = "0",
-                    DispOper = "1"
-
-                }
-            };
-            return result;
-            
-        }
-
         protected void GetEqualityTestCases()
         {
-            Cb1 = Fixture.Build<CashBondForfitureOutput>()
-                .WithAutoProperties()
-                .With(x => x.Name, "One")
-                .With(x => x.Address, "111")
-                .With(x => x.AddressLine2, "222")
-                .With(x => x.DateOfBirth, "1/1/1980")
+            Cb1 = BuildForfitureOutput()
                 .Create();
-            Cb2 = Fixture.Build<CashBondForfitureOutput>()
-                .WithAutoProperties()
-                .With(x => x.Name, "One")
-                .With(x => x.Address, "111")
-                .With(x => x.AddressLine2, "222")
-                .With(x => x.DateOfBirth, "1/1/1980")
+            Cb2 = BuildForfitureOutput()
                 .Create();
             Cb3 = Fixture.Build<CashBondForfitureOutput>()
                 .WithAutoProperties()
@@ -135,29 +36,13 @@ namespace UnitTests
 
         protected void GetTestInputList()
         {
-            var header = Fixture.Build<CashBondForfitureInput>()
-                .WithAutoProperties()
-                .With(x => x.Name, "Name")
-                .With(x => x.Address, "Address")
-                .With(x => x.AddressLine2, "City, St Zip")
-                .With(x => x.DateOfBirth, "Date Of Birth")
+            var header = BuildForfitureInput()
                 .Create();
-            var cb1 = Fixture.Build<CashBondForfitureInput>()
-                .WithAutoProperties()
-                .With(x => x.Name, "One")
-                .With(x => x.Address, "111")
-                .With(x => x.AddressLine2, "222")
-                .With(x => x.DateOfBirth, "1/1/1980")
+            var cb1 = BuildForfitureInput()
                 .Create();
-            var cb2 = Fixture.Build<CashBondForfitureInput>()
-                .WithAutoProperties()
-                .With(x => x.Name, "One")
-                .With(x => x.Address, "111")
-                .With(x => x.AddressLine2, "222")
-                .With(x => x.DateOfBirth, "1/1/1980")
+            var cb2 = BuildForfitureInput()
                 .Create();
-            var cb3 = Fixture.Build<CashBondForfitureInput>()
-                .WithAutoProperties()
+            var cb3 = BuildForfitureInput()
                 .Create();
             SampleInputList = new List<CashBondForfitureInput> {header, cb1, cb2, cb3};
         }
@@ -180,5 +65,57 @@ namespace UnitTests
                 new RowItem() {ColumnName = "Address", Value = "Row3Value2"}
             }
         };
+
+        private Ploeh.AutoFixture.Dsl.IPostprocessComposer<CashBondForfitureOutput> BuildForfitureOutput()
+        {
+            return Fixture.Build<CashBondForfitureOutput>()
+                .WithAutoProperties()
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Name", Value = "Name 1", ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Address", Value = "Address 1", ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Address2", Value = "City, St Zip", ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "DateOfBirth", Value = "Date Of Birth", ShouldRemoveDupes = true}
+                    });
+        }
+        private Ploeh.AutoFixture.Dsl.IPostprocessComposer<CashBondForfitureInput> BuildForfitureInput()
+        {
+            return Fixture.Build<CashBondForfitureInput>()
+                .WithAutoProperties()
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Address2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true}
+                    })
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true}
+                    });
+        }
+
     }
 }

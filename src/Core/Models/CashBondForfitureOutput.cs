@@ -2,14 +2,44 @@
 
 namespace Core.Models
 {
-    public class CashBondForfitureOutput
+    public class CashBondForfitureOutput : DynamicOutput
     {
-        public string Name { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public string AddressLine2 { get; set; } = string.Empty;
-        public List<Citation> Citations { get; set; } = new List<Citation>();
-        public string DispositionDate { get; set; } = string.Empty;
-        public string DateOfBirth { get; set; } = string.Empty;
+        //Address 
+        //AddressLine2 
+        //<Citation> 
+        //DispositionDate 
+        //DateOfBirth 
+        public CashBondForfitureOutput()
+        {
+            DynamicItems = new List<DynamicItem>
+            {
+                new DynamicItem()
+                {
+                    ColumnName = "Name",
+                    ShouldRemoveDupes = true
+                },
+                new DynamicItem
+                {
+                    ColumnName = "Address",
+                    ShouldRemoveDupes = true
+                },
+                new DynamicItem
+                {
+                    ColumnName = "Address2",
+                    ShouldRemoveDupes = true
+                },
+                new DynamicItem()
+                {
+                    ColumnName = "DispositionDate",
+                    ShouldRemoveDupes = false
+                },
+                new DynamicItem()
+                {
+                    ColumnName = "Citations",
+                    Value = new List<Citation>()
+                }
+            };
+        }
     }
 
     public class Citation

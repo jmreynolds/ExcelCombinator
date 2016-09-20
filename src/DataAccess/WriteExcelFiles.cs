@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using Core.Models;
-using NetOffice.ExcelApi.Enums;
 
 namespace DataAccess
 {
@@ -28,27 +27,57 @@ namespace DataAccess
 
             var rows = output.ToArray();
             var rowCount = rows.Length;
-            object[,] range = new object[rowCount+1,18];
+            object[,] range = new object[rowCount,18];
             range = SetColumnNames(range);
-            RowsWritten = 0; // Don't count the column headers.
-            for (var rowIndex = 0; rowIndex < rowCount; rowIndex++)
+            RowsWritten = 1;
+            for (var i = 1; i < rowCount; i++)
             {
-                var rangeIndex = rowIndex+1;
-                range.SetValue(rows[rowIndex].Name, rangeIndex, 0);
-                range.SetValue(rows[rowIndex].Address, rangeIndex, 1);
-                range.SetValue(rows[rowIndex].AddressLine2, rangeIndex, 2);
+                var rowIndex = i;
+                var name = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "Name")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(name)) throw new ArgumentException($"Row {i} has no name.");
 
-                var citations = rows[rowIndex].Citations;
+                var citations = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "Citations")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (citations == null) throw new ArgumentException($"Row {i} has no citations. Check on person: {name}");
+
+                var address = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "Address")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(address)) throw new ArgumentException($"Row {i} has no address. Check on person: {name}");
+
+
+                var address2 = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "AddressLine2")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(address2)) throw new ArgumentException($"Row {i} has no City, St, Zip. Check on person: {name}");
+
+                var dispositionDate = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "DispositionDate")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(dispositionDate)) throw new ArgumentException($"Row {i} has no dispositiondate. Check on person: {name}");
+
+                range.SetValue(name, rowIndex, 0);
+                range.SetValue(address, rowIndex, 1);
+                range.SetValue(address2, rowIndex, 2);
+                range.SetValue(dispositionDate, rowIndex, 17);
+
                 var citNum = 3;
                 var offNum = 4;
                 foreach (Citation t in citations)
                 {
-                    range.SetValue(t.CitationNumber, rangeIndex, citNum);
-                    range.SetValue(t.Offense, rangeIndex, offNum);
+                    range.SetValue(t.CitationNumber, rowIndex, citNum);
+                    range.SetValue(t.Offense, rowIndex, offNum);
                     citNum = citNum + 2;
                     offNum = offNum + 2;
                 }
-                range.SetValue(rows[rowIndex].DispositionDate, rangeIndex, 17);
                 RowsWritten++;
             }
             SaveRangeToExcelFile(range);
