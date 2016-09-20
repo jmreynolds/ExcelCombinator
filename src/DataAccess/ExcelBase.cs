@@ -1,16 +1,28 @@
 using System;
 using System.Linq;
-using NetOffice.ExcelApi.Enums;
+using Aspose.Cells;
+
 
 namespace DataAccess
 {
     public abstract class ExcelBase
     {
-        protected NetOffice.ExcelApi.Application Application;
-        protected NetOffice.ExcelApi.Workbook Workbook;
-        protected NetOffice.ExcelApi.Worksheet Worksheet;
-        protected NetOffice.ExcelApi.Range Cells;
-        protected NetOffice.ExcelApi.Range Range;
+        protected ExcelBase()
+        {
+            var license = new License();
+            license.SetLicense("Aspose.Total.Product.Family.lic");
+        }
+
+        protected Workbook Workbook;
+        protected Worksheet Worksheet;
+        protected Cells Cells;
+        protected Range Range;
+
+        //protected NetOffice.ExcelApi.Application Application;
+        //protected NetOffice.ExcelApi.Workbook Workbook;
+        //protected NetOffice.ExcelApi.Worksheet Worksheet;
+        //protected NetOffice.ExcelApi.Range Cells;
+        //protected NetOffice.ExcelApi.Range Range;
         private string _outputPath;
         private string _inputFile;
 
@@ -34,48 +46,23 @@ namespace DataAccess
             }
         }
 
-        protected void KillExcel()
-        {
-            Workbook.Close();
-            Application.DisplayAlerts = true;
-            Application.Quit();
-            Helpers.Release(Cells);
-            Helpers.Release(Worksheet);
-            Helpers.Release(Workbook);
-            Helpers.Release(Application);
-            Helpers.Release(Range);
-            Cells = null;
-            Range = null;
-            Worksheet = null;
-            Workbook = null;
-            Application = null;
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
-
         public event EventHandler OutputPathChanged;
 
         protected void SaveRangeToExcelFile(object[,] range)
         {
             OpenWorksheet();
-            var rowCount = range.GetLength(0);
-            var colCount = range.GetLength(1);
-            Range =  Worksheet.Cells[1,1];
-            Range = Range.get_Resize(rowCount, colCount);
-            Range.set_Value(XlRangeValueDataType.xlRangeValueDefault, range);
+            Worksheet.Cells.ImportTwoDimensionArray(range,0,0,false);
             Worksheet.Name = "Output";
-            Workbook.SaveAs(OutputPath);
-            KillExcel();
-
+            Workbook.Save(OutputPath);
+            
         }
 
         protected void OpenWorksheet(string fileName ="")
         {
-            Application = new NetOffice.ExcelApi.Application();
             Workbook = (string.IsNullOrWhiteSpace(fileName))
-                ? Application.Workbooks.Add()
-                : Application.Workbooks.Open(fileName);
-            Worksheet = (NetOffice.ExcelApi.Worksheet) Workbook.Sheets.First();
+                ? new Workbook() 
+                : new Workbook(fileName);
+            Worksheet = Workbook.Worksheets.First();
         }
 
         public event EventHandler InputFileChanged;
@@ -86,17 +73,12 @@ namespace DataAccess
             try
             {
                 OpenWorksheet(InputFile);
-                Range = Worksheet.UsedRange;
-                valueArray =
-                    (object[,])Range.get_Value(XlRangeValueDataType.xlRangeValueDefault);
+                Range = Worksheet.Cells.MaxDisplayRange;
+                valueArray = Worksheet.Cells.ExportArray(Range.FirstRow, Range.FirstColumn, Range.RowCount, Range.ColumnCount);
             }
             catch (Exception e)
             {
                 throw new ApplicationException(e.Message,e.InnerException);
-            }
-            finally
-            {
-                KillExcel();
             }
             return valueArray;
         }

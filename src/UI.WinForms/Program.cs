@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Exceptionless;
 using Infrastructure.Modules;
@@ -11,7 +8,7 @@ namespace UI.WinForms
 {
     static class Program
     {
-        private static StandardKernel kernel;
+        private static StandardKernel _kernel;
 
         /// <summary>
         /// The main entry point for the application.
@@ -22,14 +19,14 @@ namespace UI.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Bootstrap();
-            Application.Run(kernel.Get<MainForm>());
+            Application.Run(_kernel.Get<MainForm>());
         }
 
         static void Bootstrap()
         {
             ExceptionlessClient.Default.Register();
-            kernel = new StandardKernel(new NetOfficeModule());
-            kernel.Bind<MainForm>().ToSelf();
+            _kernel = new StandardKernel(new NetOfficeModule());
+            _kernel.Bind<MainForm>().ToSelf();
         }
     }
 }

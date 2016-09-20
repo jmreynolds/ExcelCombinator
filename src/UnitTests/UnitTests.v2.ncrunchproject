@@ -23,4 +23,5 @@
   <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
   <MSTestThreadApartmentState>STA</MSTestThreadApartmentState>
   <BuildProcessArchitecture>x86</BuildProcessArchitecture>
+  <AdditionalFilesToInclude>..\packages\PostSharp.Patterns.Diagnostics.4.2.21\tools\PostSharp.Patterns.Diagnostics.Weaver.dll;..\packages\PostSharp.Patterns.Diagnostics.NLog.4.2.21\tools\PostSharp.Patterns.Diagnostics.Weaver.NLog.dll</AdditionalFilesToInclude>
 </ProjectConfiguration>

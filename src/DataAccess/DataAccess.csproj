@@ -31,17 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExcelApi, Version=1.7.3.0, Culture=neutral, PublicKeyToken=9084b9221296229e, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetOffice.Excel.1.7.3.0\lib\net40\ExcelApi.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="Aspose.Cells, Version=8.8.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
+      <HintPath>..\packages\Aspose.Cells.8.8.0\lib\net40\Aspose.Cells.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="NetOffice, Version=1.7.3.0, Culture=neutral, PublicKeyToken=297f57b43ae7c1de, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetOffice.Core.1.7.3.0\lib\net40\NetOffice.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="CODE.Framework.Core">
+      <HintPath>..\..\Library\CODE.Framework.Core.dll</HintPath>
     </Reference>
-    <Reference Include="OfficeApi, Version=1.7.3.0, Culture=neutral, PublicKeyToken=a39beb0835c43c8e, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetOffice.Core.1.7.3.0\lib\net40\OfficeApi.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="CODE.Framework.Core.Utilities">
+      <HintPath>..\..\Library\CODE.Framework.Core.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,23 +47,22 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="VBIDEApi, Version=1.7.3.0, Culture=neutral, PublicKeyToken=931cec8882205047, processorArchitecture=MSIL">
-      <HintPath>..\packages\NetOffice.Core.1.7.3.0\lib\net40\VBIDEApi.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DynamicMapping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ReadExcelFileProcessor.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="Processor.cs" />
+    <Compile Include="ProcessMunicipalItems.cs" />
     <Compile Include="ReadExcelFiles.cs" />
     <Compile Include="WriteExcelFiles.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Aspose.Total.Product.Family.lic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Include="DataAccess.psproj" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

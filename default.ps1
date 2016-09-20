@@ -19,7 +19,7 @@ properties {
 	# $package_file = "$build_dir\latestVersion\" + $projectName +"_Package.zip"
 
     $setup_file = "$base_dir\SetupFiles\ExcelCombinatorSetup.msi"
-    $installer_cmd_path = "C:\Program Files (x86)\Caphyon\Advanced Installer 12.7.1\bin\x86\AdvancedInstaller.com"
+    $installer_cmd_path = "C:\Program Files (x86)\Caphyon\Advanced Installer 13.1\bin\x86\AdvancedInstaller.com"
     $installer_project_file = "$base_dir\Installer\Installer.aip"
     $zero29 = "$base_dir\Zero29\Zero29.exe"
 }

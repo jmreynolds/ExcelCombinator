@@ -2,11 +2,15 @@
 using Core.Models;
 using Infrastructure.Modules;
 using Ninject;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.AutoMoq;
 
 namespace IntegrationTests
 {
     public class TestBase
     {
+        protected string TestPath { get; } = @"C:\Development\InfoCraft\ExcelCombinator\TestFiles\";
+        protected Fixture Fixture { get; set; }
         public List<CashBondForfitureOutput> SampleOutputList { get; set; } = new List<CashBondForfitureOutput>();
         protected StandardKernel Kernel { get; private set; }
         protected void Bootstrap()
@@ -16,48 +20,57 @@ namespace IntegrationTests
 
         protected void GenerateSampleOutputList()
         {
-            var item1 = new CashBondForfitureOutput()
-            {
-                Name = "One",
-                Address = "111",
-                AddressLine2 = "222",
-                DispositionDate = "1/1/1900",
-                DateOfBirth = "1/1/1980",
-                Citations = new List<Citation>
-                {
-                    new Citation {CitationNumber = "1", Offense = "Offense 1"},
-                    new Citation {CitationNumber = "2", Offense = "Offense 2"},
-                    new Citation {CitationNumber = "3", Offense = "Offense 3"},
-                }
-            };
-            var item2 = new CashBondForfitureOutput()
-            {
-                Name = "Two",
-                Address = "222",
-                AddressLine2 = "333",
-                DispositionDate = "2/2/1900",
-                DateOfBirth = "2/2/1980",
-                Citations = new List<Citation>
-                {
-                    new Citation {CitationNumber = "1", Offense = "Offense 1"},
-                }
-            };
-            var item3 = new CashBondForfitureOutput()
-            {
-                Name = "Three",
-                Address = "333",
-                AddressLine2 = "444",
-                DispositionDate = "3/3/1900",
-                DateOfBirth = "3/3/1980",
-                Citations = new List<Citation>
-                {
-                    new Citation {CitationNumber = "1", Offense = "Offense 1"},
-                    new Citation {CitationNumber = "2", Offense = "Offense 2"},
-                    new Citation {CitationNumber = "3", Offense = "Offense 3"},
-                    new Citation {CitationNumber = "4", Offense = "Offense 4"},
-                    new Citation {CitationNumber = "5", Offense = "Offense 5"},
-                }
-            };
+            Fixture = new Fixture();
+            Fixture.Customize(new AutoMoqCustomization());
+
+            var list1 = new List<Citation>();
+            Fixture.AddManyTo(list1,3);
+            var item1 = Fixture.Build<CashBondForfitureOutput>()
+                .WithAutoProperties()
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
+                        new DynamicItem {ColumnName = "Citations", Value = list1, ShouldRemoveDupes = false}
+                    })
+                .Create();
+
+            var list2 = new List<Citation>();
+            Fixture.AddManyTo(list2, 1);
+            var item2 = Fixture.Build<CashBondForfitureOutput>()
+                .WithAutoProperties()
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
+                        new DynamicItem {ColumnName = "Citations", Value = list2, ShouldRemoveDupes = false}
+                    })
+                .Create();
+            var list3 = new List<Citation>();
+            Fixture.AddManyTo(list3, 5);
+            var item3 = Fixture.Build<CashBondForfitureOutput>()
+                .WithAutoProperties()
+                .With(x => x.DynamicItems,
+                    new List<DynamicItem>
+                    {
+                        new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
+                        new DynamicItem {ColumnName = "Citations", Value = list3, ShouldRemoveDupes = false}
+                    })
+                .Create();
+
+
             SampleOutputList.Add(item1);
             SampleOutputList.Add(item2);
             SampleOutputList.Add(item3);

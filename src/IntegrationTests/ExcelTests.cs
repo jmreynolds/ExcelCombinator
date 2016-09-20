@@ -24,10 +24,10 @@ namespace IntegrationTests
         public void TearDown()
         {
             Thread.Sleep(5000);
-            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx"))
-                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx");
-            if(File.Exists(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx"))
-                File.Delete(@"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx");
+            if(File.Exists($@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx"))
+                File.Delete($@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx");
+            if(File.Exists($@"{TestPath}TestOutput.xlsx"))
+                File.Delete($@"{TestPath}TestOutput.xlsx");
         }
 
         [Test, Category("BootStrap")]
@@ -43,7 +43,7 @@ namespace IntegrationTests
         {
             var processor = Kernel.Get<IProcessor>();
             processor.ShouldNotBeNull();
-            processor.ShouldBeType<Processor>();
+            processor.ShouldBeType<ProcessMunicipalItems>();
         }
 
         [Test, Category("BootStrap")]
@@ -57,42 +57,30 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Should_Read_Columns()
         {
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\ColumnTest.xlsx";
+            var inputPath = $@"{TestPath}ColumnTest.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             var columns = _reader.ReadColumnNames().ToArray();
             columns.ShouldNotBeEmpty();
-            columns.Count().ShouldEqual(3);
+            columns.Length.ShouldEqual(3);
         }
 
         [Test, Category("Interop")]
         public void Should_Read_Full_WorkSheet()
         {
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             var result = _reader.ReadWorkSheet().ToList();
             result.Count.ShouldEqual(432);
 
             result.ShouldNotBeNull();
-            var keyValuePairs = result
-                .Where(x => x.Key == 2);
-            keyValuePairs
-                .ShouldNotBeNull();
-            var enumerable = keyValuePairs
-                .Select(x => x.Value);
-            enumerable
-                .ShouldNotBeNull();
-            var firstOrDefault = enumerable
-                .FirstOrDefault();
-            firstOrDefault
-                .ShouldNotBeNull();
-            var rowItem = firstOrDefault
-                .FirstOrDefault(x => x.ColumnName == "Offense Date");
-            rowItem
-                .ShouldNotBeNull();
-            rowItem
-                .Value.ShouldStartWith(@"1/14/2016");
+            var item = result.Where(x => x.Key == 1)
+                .Select(x => x.Value)
+                .FirstOrDefault()
+                ?.FirstOrDefault(x => x.ColumnName == "Offense Date");
+            item.ShouldNotBeNull();
+            item?.Value.ShouldStartWith(@"1/14/2016");
         }
 
         [Test, Category("Integration")]
@@ -119,7 +107,7 @@ namespace IntegrationTests
         public void RowCountChanged_Event_Should_Fire()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
             reader.InputFile = inputPath;
             var rowsReadEventFired = false;
             var rowsCountEventFired = false;
@@ -135,10 +123,10 @@ namespace IntegrationTests
         public void FullStackTest()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
-            var processor = Kernel.Get<IProcessor>();
+            var processor = Kernel.Get<IProcessMunicipalItems>();
             var writer = Kernel.Get<IWriteExcelFiles>();
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
-            var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016_Output.xlsx";
+            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
+            var outputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx";
             var citationEventFired = false;
             var rowsToWriteEventFired = false;
             var inputFilterEventFired = false;
@@ -158,7 +146,7 @@ namespace IntegrationTests
             reader.InputFile = inputPath;
             writer.OutputPath = outputPath;
             var worksheet = reader.ReadWorkSheet();
-            var forfitureInputs = processor.MapToCashBondForfitureInput(worksheet);
+            var forfitureInputs = processor.MapToCashBondForfitureInput(worksheet).ToList();
             var forfitureOutputs = processor.MapToCashBondForfitureOutput(forfitureInputs).ToList();
             writer.WriteToExcelFile(forfitureOutputs);
             
@@ -170,9 +158,9 @@ namespace IntegrationTests
             rowsWrittenEventFired.ShouldBeTrue();
             rowCountEventFired.ShouldBeTrue();
             rowsReadEventFired.ShouldBeTrue();
-            reader.RowCount.ShouldEqual((reader.RowsRead + 1), "Rows Read don't match Rows Available");
-            reader.RowsRead.ShouldEqual(processor.Citations, "Rows Read don't match Citations Printed");
-            processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count(), "Rows don't match output stream");
+            reader.RowCount.ShouldEqual((reader.RowsRead + 1), $"Rows Read: {reader.RowsRead + 1 } don't match Rows Available: {reader.RowCount}");
+            reader.RowsRead.ShouldEqual(processor.Citations, $"Rows Read: {reader.RowsRead} don't match Citations Printed: {processor.Citations}");
+            processor.RowsToWrite.ShouldEqual(forfitureOutputs.Count, "Rows don't match output stream");
             writer.RowsWritten.ShouldEqual(processor.RowsToWrite, "Rows out don't add up");
         }
 
@@ -180,9 +168,8 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Should_Write_An_Excel_File_From_A_List()
         {
-            Bootstrap();
             var writer = Kernel.Get<IWriteExcelFiles>();
-            var outputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\TestOutput.xlsx";
+            var outputPath = $@"{TestPath}TestOutput.xlsx";
             writer.OutputPath = outputPath;
             GenerateSampleOutputList();
             writer.WriteToExcelFile(SampleOutputList);
@@ -192,7 +179,7 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Reader_Should_Get_RowCount()
         {
-            var inputPath = @"C:\Development\GoDirect\ExcelCombinator\TestFiles\bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             _reader.ReadWorkSheet();

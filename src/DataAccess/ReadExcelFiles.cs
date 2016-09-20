@@ -39,23 +39,12 @@ namespace DataAccess
         public IEnumerable<string> ReadColumnNames()
         {
             OpenWorksheet(InputFile);
-            Cells = Worksheet.Rows.First().Cells;
-            var colCount = Worksheet.UsedRange.Cells.Columns.Count;
+            Cells = Worksheet.Cells;
+            var colCount = Cells.MaxDataColumn;
             var columns = new List<string>();
-            try
+            for (int i = 0; i <= colCount; i++)
             {
-                for (int i = 1; i <= colCount; i++)
-                {
-                    columns.Add(Cells[i].ToString());
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                KillExcel();
+                columns.Add(Cells.GetCell(0,i).ToString());
             }
             return columns;
         }
@@ -74,75 +63,42 @@ namespace DataAccess
             // where int is the row number and IEnumerable is the Row content
             Dictionary<int, IEnumerable<RowItem>> rows = new Dictionary<int, IEnumerable<RowItem>>();
 
-            try
+            RowsRead = 0; // We're not counting the Header...
+            Dictionary<int, string> columnNames = new Dictionary<int, string>();
+            for (int rowNum = 0; rowNum < RowCount; rowNum++)
             {
-                RowsRead = 0; // We're not counting the Header...
-                Dictionary<int, string> columnNames = new Dictionary<int, string>();
-                for (int rowNum = 1; rowNum <= RowCount; rowNum++)
+                if (rowNum == 0)
                 {
-                    if (rowNum == 1)
+                    for (int colNum = 0; colNum < colCount; colNum++)
                     {
-                        for (int colNum = 1; colNum <= colCount; colNum++)
-                        {
-                            var columnName = range.GetValue(rowNum, colNum).ToString();
-                            switch (columnName)
-                            {
-                                case "Citations":
-                                    // this is a hidden column that we don't use.
-                                    break;
-                                case "Offense Date":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Citationýnumber":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Name":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Address":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "City, St Zip":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Offense":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Bf Status Date":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Juvenile":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                case "Disp Oper":
-                                    columnNames.Add(colNum, columnName);
-                                    break;
-                                default:
-                                    string[] allowedColumns = new[] { "Offense Date", "Citationýnumber", "Name", "Address", "City, St Zip", "Offense", "Juvenile", "Disp Oper", "Bf Status Date", };
-                                    throw new InvalidColumnException($"Invalid column: {columnName}.", columnName, allowedColumns, null);
-                            }
-                        }
+                        var colName = range.GetValue(rowNum, colNum).ToString();
+                        if (colName == "Offense Date") columnNames.Add(colNum, colName);
+                        if (colName == "Citationýnumber") columnNames.Add(colNum, colName);
+                        if (colName == "Name") columnNames.Add(colNum, colName);
+                        if (colName == "Address") columnNames.Add(colNum, colName);
+                        if (colName == "City, St Zip") columnNames.Add(colNum, colName);
+                        if (colName == "Offense") columnNames.Add(colNum, colName);
+                        if (colName == "Bf Status Date") columnNames.Add(colNum, colName);
+                        if (colName == "Juvenile") columnNames.Add(colNum, colName);
+                        if (colName == "Disp Oper") columnNames.Add(colNum, colName);
+                        //Bf row[6]
+                    }
 
-                    }
-                    else
-                    {
-                        List<RowItem> row = columnNames
-                            .Select(columnName =>
-                                new RowItem
-                                {
-                                    ColumnName = columnName.Value,
-                                    Value = range.GetValue(rowNum, columnName.Key).ToString() //Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
-                                }).ToList();
-                        rows.Add(rowNum, row);
-                        RowsRead++;
-                    }
+                }
+                else
+                {
+                    List<RowItem> row = columnNames
+                        .Select(columnName =>
+                            new RowItem
+                            {
+                                ColumnName = columnName.Value,
+                                Value = range.GetValue(rowNum, columnName.Key).ToString() //Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
+                            }).ToList();
+                    rows.Add(rowNum, row);
+                    RowsRead++;
                 }
             }
-            catch (Exception exc)
-            {
-                throw;
-            }
-            return rows.Where(pair => pair.Key > 1).ToDictionary(x => x.Key, x => x.Value);
+            return rows.ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }

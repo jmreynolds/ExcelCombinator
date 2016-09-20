@@ -7,14 +7,11 @@ namespace Infrastructure.Modules
 {
     public class NetOfficeModule : NinjectModule
     {
-        public NetOfficeModule()
-        {
-            
-        }
         public override void Load()
         {
             Bind<IReadExcelFiles>().To<ReadExcelFiles>();
-            Bind<IProcessor>().To<Processor>();
+            Bind<IProcessor>().To<ProcessMunicipalItems>();
+            Bind<IProcessMunicipalItems>().To<ProcessMunicipalItems>();
             Bind<IWriteExcelFiles>().To<WriteExcelFiles>();
             Bind<ILog>().To<Logger>();
         }
