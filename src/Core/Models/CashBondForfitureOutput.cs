@@ -25,7 +25,17 @@ namespace Core.Models
                 },
                 new DynamicItem
                 {
-                    ColumnName = "Address2",
+                    ColumnName = "City",
+                    ShouldRemoveDupes = true
+                },
+                new DynamicItem
+                {
+                    ColumnName = "State",
+                    ShouldRemoveDupes = true
+                },
+                new DynamicItem
+                {
+                    ColumnName = "Zip",
                     ShouldRemoveDupes = true
                 },
                 new DynamicItem()

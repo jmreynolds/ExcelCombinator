@@ -45,15 +45,15 @@ namespace DataAccess
                     DynamicItem item;
                     switch (columnName)
                     {
-                        case "Offense Date":
+                        case "Violation Date":
                             result.DynamicItems.Find(x => x.ColumnName == "OffenseDate").Value = rowValue;
                             break;
-                        case "Citationýnumber":
+                        case "Citation":
                             item = result.DynamicItems.Find(x => x.ColumnName == "CitationNumber");
                             item
                                 .Value = rowValue;
                             break;
-                        case "Name":
+                        case "Defendant":
                             item = result.DynamicItems.Find(x => x.ColumnName == "Name");
                             item.Value =rowValue;
                             item.ShouldRemoveDupes = true;
@@ -65,25 +65,29 @@ namespace DataAccess
                             item.ShouldRemoveDupes = true;
                             item.ShouldIncludeInOutput = true;
                             break;
-                        case "City, St Zip":
-                            item = result.DynamicItems.Find(x => x.ColumnName == "AddressLine2");
+                        case "City":
+                            item = result.DynamicItems.Find(x => x.ColumnName == "City");
                             item.Value = rowValue;
                             item.ShouldRemoveDupes = true;
                             item.ShouldIncludeInOutput = true;
                             break;
-                        case "Offense":
+                        case "State":
+                            item = result.DynamicItems.Find(x => x.ColumnName == "State");
+                            item.Value = rowValue;
+                            item.ShouldRemoveDupes = true;
+                            item.ShouldIncludeInOutput = true;
+                            break;
+                        case "Zip":
+                            item = result.DynamicItems.Find(x => x.ColumnName == "Zip");
+                            item.Value = rowValue;
+                            item.ShouldRemoveDupes = true;
+                            item.ShouldIncludeInOutput = true;
+                            break;
+                        case "Charge":
                             item = result.DynamicItems.Find(x => x.ColumnName == "Offense");
                             item.Value = rowValue;
                             break;
-                        case "Juvenile":
-                            item = result.DynamicItems.Find(x => x.ColumnName == "Juvenile");
-                            item.Value = rowValue;
-                            break;
-                        case "Disp Oper":
-                            item = result.DynamicItems.Find(x => x.ColumnName == "DispOper");
-                            item.Value = rowValue;
-                            break;
-                        case "Bf Status Date":
+                        case "Disposition Date":
                             item = result.DynamicItems.Find(x => x.ColumnName == "DispositionDate");
                             item.Value = rowValue;
                             // item.ColumnName = "DispositionDate";
@@ -99,6 +103,7 @@ namespace DataAccess
         public IEnumerable<CashBondForfitureOutput> MapToCashBondForfitureOutput(
             IEnumerable<CashBondForfitureInput> input)
         {
+
             Citations = 0;
             var comparer = new DynamicOutputCompare();
             var rows = input.ToList();

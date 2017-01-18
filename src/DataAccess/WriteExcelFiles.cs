@@ -27,7 +27,7 @@ namespace DataAccess
 
             var rows = output.ToArray();
             var rowCount = rows.Length;
-            object[,] range = new object[rowCount,18];
+            object[,] range = new object[rowCount,20];
             range = SetColumnNames(range);
             RowsWritten = 1;
             for (var i = 1; i < rowCount; i++)
@@ -52,11 +52,21 @@ namespace DataAccess
                 if (string.IsNullOrEmpty(address)) throw new ArgumentException($"Row {i} has no address. Check on person: {name}");
 
 
-                var address2 = rows[i].DynamicItems
-                    .Where(x => x.ColumnName == "AddressLine2")
+                var city = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "City")
                     .Select(x => x.Value)
                     .FirstOrDefault();
-                if (string.IsNullOrEmpty(address2)) throw new ArgumentException($"Row {i} has no City, St, Zip. Check on person: {name}");
+                if (string.IsNullOrEmpty(city)) throw new ArgumentException($"Row {i} has no City. Check on person: {name}");
+                var state = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "State")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                if (string.IsNullOrEmpty(state)) throw new ArgumentException($"Row {i} has no State. Check on person: {name}");
+                var zip = rows[i].DynamicItems
+                    .Where(x => x.ColumnName == "Zip")
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+                //if (string.IsNullOrEmpty(zip)) throw new ArgumentException($"Row {i} has no Zip. Check on person: {name}");
 
                 var dispositionDate = rows[i].DynamicItems
                     .Where(x => x.ColumnName == "DispositionDate")
@@ -66,11 +76,13 @@ namespace DataAccess
 
                 range.SetValue(name, rowIndex, 0);
                 range.SetValue(address, rowIndex, 1);
-                range.SetValue(address2, rowIndex, 2);
-                range.SetValue(dispositionDate, rowIndex, 17);
+                range.SetValue(city, rowIndex, 2);
+                range.SetValue(state, rowIndex, 3);
+                range.SetValue(zip, rowIndex, 4);
+                range.SetValue(dispositionDate, rowIndex, 19);
 
-                var citNum = 3;
-                var offNum = 4;
+                var citNum = 5;
+                var offNum = 6;
                 foreach (Citation t in citations)
                 {
                     range.SetValue(t.CitationNumber, rowIndex, citNum);
@@ -88,22 +100,24 @@ namespace DataAccess
         {
             range.SetValue("Name",0,0);
             range.SetValue( "Address", 0, 1);
-            range.SetValue( "City, ST Zip", 0, 2);
-            range.SetValue( "Citation Number 1", 0, 3);
-            range.SetValue( "Offense 1", 0, 4);
-            range.SetValue( "Citation Number 2", 0,5);
-            range.SetValue( "Offense  2", 0, 6);
-            range.SetValue( "Citation Number 3", 0, 7);
-            range.SetValue( "Offense 3", 0, 8);
-            range.SetValue( "Citation Number 4", 0, 9);
-            range.SetValue( "Offense 4", 0, 10);
-            range.SetValue( "Citation Number 5", 0, 11);
-            range.SetValue( "Offense 5", 0, 12);
-            range.SetValue( "Citation Number 6", 0, 13);
-            range.SetValue( "Offense 6", 0, 14);
-            range.SetValue( "Citation Number 7", 0, 15);
-            range.SetValue( "Offense 7", 0, 16);
-            range.SetValue("Disposition Date", 0, 17);
+            range.SetValue("City", 0, 2);
+            range.SetValue("State", 0, 3);
+            range.SetValue("Zip", 0, 4);
+            range.SetValue( "Citation Number 1", 0, 5);
+            range.SetValue( "Offense 1", 0, 6);
+            range.SetValue( "Citation Number 2", 0,7);
+            range.SetValue( "Offense  2", 0, 8);
+            range.SetValue( "Citation Number 3", 0, 9);
+            range.SetValue( "Offense 3", 0, 10);
+            range.SetValue( "Citation Number 4", 0, 11);
+            range.SetValue( "Offense 4", 0, 12);
+            range.SetValue( "Citation Number 5", 0, 13);
+            range.SetValue( "Offense 5", 0, 14);
+            range.SetValue( "Citation Number 6", 0, 15);
+            range.SetValue( "Offense 6", 0, 16);
+            range.SetValue( "Citation Number 7", 0, 17);
+            range.SetValue( "Offense 7", 0, 18);
+            range.SetValue("DispositionDate", 0, 19);
             return range;
         }
     }

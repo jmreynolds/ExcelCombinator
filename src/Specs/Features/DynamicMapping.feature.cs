@@ -107,9 +107,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ShouldMapFromInputClassListIntoOutputClassList()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Should Map From Input Class List Into Output Class List", ((string[])(null)));
-#line 17
-this.ScenarioSetup(scenarioInfo);
 #line 18
+this.ScenarioSetup(scenarioInfo);
+#line 19
  testRunner.Given("a sample list mapped from the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -123,27 +123,17 @@ this.ScenarioSetup(scenarioInfo);
             table1.AddRow(new string[] {
                         "Address"});
             table1.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table1.AddRow(new string[] {
+                        "State"});
+            table1.AddRow(new string[] {
+                        "Zip"});
             table1.AddRow(new string[] {
                         "Offense"});
             table1.AddRow(new string[] {
-                        "Juvenile"});
-            table1.AddRow(new string[] {
-                        "DispOper"});
-            table1.AddRow(new string[] {
                         "DispositionDate"});
-            table1.AddRow(new string[] {
-                        "LastHearingDate"});
-            table1.AddRow(new string[] {
-                        "Court"});
-            table1.AddRow(new string[] {
-                        "LastHearingCode"});
-            table1.AddRow(new string[] {
-                        "DateOfBirth"});
-            table1.AddRow(new string[] {
-                        "Final"});
-#line 19
-   testRunner.And("the input columns are:", ((string)(null)), table1, "And ");
+#line 20
+  testRunner.And("the input columns are:", ((string)(null)), table1, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
@@ -152,10 +142,14 @@ this.ScenarioSetup(scenarioInfo);
             table2.AddRow(new string[] {
                         "Address"});
             table2.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table2.AddRow(new string[] {
+                        "State"});
+            table2.AddRow(new string[] {
+                        "Zip"});
             table2.AddRow(new string[] {
                         "DispositionDate"});
-#line 35
+#line 31
   testRunner.And("the following fields are marked for inclusion:", ((string)(null)), table2, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
@@ -165,27 +159,29 @@ this.ScenarioSetup(scenarioInfo);
             table3.AddRow(new string[] {
                         "Address"});
             table3.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
             table3.AddRow(new string[] {
-                        "DateOfBirth"});
-#line 41
+                        "State"});
+            table3.AddRow(new string[] {
+                        "Zip"});
+#line 39
   testRunner.And("the following fields are marked as de-dupe fields:", ((string)(null)), table3, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
             table4.AddRow(new string[] {
-                        "CitationNumber"});
+                        "Citation"});
             table4.AddRow(new string[] {
                         "Offense"});
-#line 47
+#line 46
   testRunner.And("the following fields are marked as aggregate fields:", ((string)(null)), table4, "And ");
-#line 51
+#line 50
   testRunner.And("the list has 5 rows with 0 duplicate records", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 52
+#line 51
  testRunner.When("I process the list for output", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 53
+#line 52
  testRunner.Then("the result should be an output in the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 54
+#line 53
   testRunner.And("the output result should have 5 rows", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
@@ -195,12 +191,16 @@ this.ScenarioSetup(scenarioInfo);
             table5.AddRow(new string[] {
                         "Address"});
             table5.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table5.AddRow(new string[] {
+                        "State"});
+            table5.AddRow(new string[] {
+                        "Zip"});
             table5.AddRow(new string[] {
                         "DispositionDate"});
             table5.AddRow(new string[] {
                         "Citations"});
-#line 55
+#line 54
   testRunner.And("the column names should be:", ((string)(null)), table5, "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -211,9 +211,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CorrectlyDe_DuplicateTheInputData()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Correctly De-Duplicate the Input Data", ((string[])(null)));
-#line 63
-this.ScenarioSetup(scenarioInfo);
 #line 64
+this.ScenarioSetup(scenarioInfo);
+#line 65
  testRunner.Given("a sample list mapped from the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
@@ -227,26 +227,16 @@ this.ScenarioSetup(scenarioInfo);
             table6.AddRow(new string[] {
                         "Address"});
             table6.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table6.AddRow(new string[] {
+                        "State"});
+            table6.AddRow(new string[] {
+                        "Zip"});
             table6.AddRow(new string[] {
                         "Offense"});
             table6.AddRow(new string[] {
-                        "Juvenile"});
-            table6.AddRow(new string[] {
-                        "DispOper"});
-            table6.AddRow(new string[] {
                         "DispositionDate"});
-            table6.AddRow(new string[] {
-                        "LastHearingDate"});
-            table6.AddRow(new string[] {
-                        "Court"});
-            table6.AddRow(new string[] {
-                        "LastHearingCode"});
-            table6.AddRow(new string[] {
-                        "DateOfBirth"});
-            table6.AddRow(new string[] {
-                        "Final"});
-#line 65
+#line 66
   testRunner.And("the input columns are:", ((string)(null)), table6, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
@@ -256,10 +246,14 @@ this.ScenarioSetup(scenarioInfo);
             table7.AddRow(new string[] {
                         "Address"});
             table7.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table7.AddRow(new string[] {
+                        "State"});
+            table7.AddRow(new string[] {
+                        "Zip"});
             table7.AddRow(new string[] {
                         "DispositionDate"});
-#line 81
+#line 77
   testRunner.And("the following fields are marked for inclusion:", ((string)(null)), table7, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
@@ -269,27 +263,29 @@ this.ScenarioSetup(scenarioInfo);
             table8.AddRow(new string[] {
                         "Address"});
             table8.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
             table8.AddRow(new string[] {
-                        "DateOfBirth"});
-#line 87
+                        "State"});
+            table8.AddRow(new string[] {
+                        "Zip"});
+#line 85
   testRunner.And("the following fields are marked as de-dupe fields:", ((string)(null)), table8, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
             table9.AddRow(new string[] {
-                        "CitationNumber"});
+                        "Citation"});
             table9.AddRow(new string[] {
                         "Offense"});
-#line 93
+#line 92
   testRunner.And("the following fields are marked as aggregate fields:", ((string)(null)), table9, "And ");
-#line 97
+#line 96
   testRunner.And("the list has 5 rows with 1 duplicate records", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 98
+#line 97
  testRunner.When("I process the list for output", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 99
+#line 98
  testRunner.Then("the result should be an output in the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 100
+#line 99
   testRunner.And("the output result should have 4 rows", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
@@ -299,12 +295,16 @@ this.ScenarioSetup(scenarioInfo);
             table10.AddRow(new string[] {
                         "Address"});
             table10.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table10.AddRow(new string[] {
+                        "State"});
+            table10.AddRow(new string[] {
+                        "Zip"});
             table10.AddRow(new string[] {
                         "DispositionDate"});
             table10.AddRow(new string[] {
                         "Citations"});
-#line 101
+#line 100
   testRunner.And("the column names should be:", ((string)(null)), table10, "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -315,9 +315,9 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CorrectlyEvaluateDe_DupeFields()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Correctly Evaluate De-Dupe Fields", ((string[])(null)));
-#line 109
-this.ScenarioSetup(scenarioInfo);
 #line 110
+this.ScenarioSetup(scenarioInfo);
+#line 111
  testRunner.Given("a sample list mapped from the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
@@ -331,26 +331,16 @@ this.ScenarioSetup(scenarioInfo);
             table11.AddRow(new string[] {
                         "Address"});
             table11.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table11.AddRow(new string[] {
+                        "State"});
+            table11.AddRow(new string[] {
+                        "Zip"});
             table11.AddRow(new string[] {
                         "Offense"});
             table11.AddRow(new string[] {
-                        "Juvenile"});
-            table11.AddRow(new string[] {
-                        "DispOper"});
-            table11.AddRow(new string[] {
                         "DispositionDate"});
-            table11.AddRow(new string[] {
-                        "LastHearingDate"});
-            table11.AddRow(new string[] {
-                        "Court"});
-            table11.AddRow(new string[] {
-                        "LastHearingCode"});
-            table11.AddRow(new string[] {
-                        "DateOfBirth"});
-            table11.AddRow(new string[] {
-                        "Final"});
-#line 111
+#line 112
   testRunner.And("the input columns are:", ((string)(null)), table11, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table12 = new TechTalk.SpecFlow.Table(new string[] {
@@ -360,10 +350,14 @@ this.ScenarioSetup(scenarioInfo);
             table12.AddRow(new string[] {
                         "Address"});
             table12.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table12.AddRow(new string[] {
+                        "State"});
+            table12.AddRow(new string[] {
+                        "Zip"});
             table12.AddRow(new string[] {
                         "DispositionDate"});
-#line 127
+#line 123
   testRunner.And("the following fields are marked for inclusion:", ((string)(null)), table12, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table13 = new TechTalk.SpecFlow.Table(new string[] {
@@ -373,14 +367,18 @@ this.ScenarioSetup(scenarioInfo);
             table13.AddRow(new string[] {
                         "Address"});
             table13.AddRow(new string[] {
-                        "Address2"});
-#line 133
+                        "City"});
+            table13.AddRow(new string[] {
+                        "State"});
+            table13.AddRow(new string[] {
+                        "Zip"});
+#line 131
   testRunner.And("the following fields are marked as de-dupe fields:", ((string)(null)), table13, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table14 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
             table14.AddRow(new string[] {
-                        "CitationNumber"});
+                        "Citation"});
             table14.AddRow(new string[] {
                         "Offense"});
 #line 138
@@ -401,7 +399,11 @@ this.ScenarioSetup(scenarioInfo);
             table15.AddRow(new string[] {
                         "Address"});
             table15.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table15.AddRow(new string[] {
+                        "State"});
+            table15.AddRow(new string[] {
+                        "Zip"});
             table15.AddRow(new string[] {
                         "DispositionDate"});
             table15.AddRow(new string[] {
@@ -417,10 +419,10 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void CorrectlyEvaluateInclusionFields()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Correctly Evaluate Inclusion Fields", ((string[])(null)));
-#line 154
-   this.ScenarioSetup(scenarioInfo);
-#line 155
-    testRunner.Given("a sample list mapped from the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 156
+this.ScenarioSetup(scenarioInfo);
+#line 157
+ testRunner.Given("a sample list mapped from the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
             TechTalk.SpecFlow.Table table16 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
@@ -433,26 +435,16 @@ this.ScenarioSetup(scenarioInfo);
             table16.AddRow(new string[] {
                         "Address"});
             table16.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table16.AddRow(new string[] {
+                        "State"});
+            table16.AddRow(new string[] {
+                        "Zip"});
             table16.AddRow(new string[] {
                         "Offense"});
             table16.AddRow(new string[] {
-                        "Juvenile"});
-            table16.AddRow(new string[] {
-                        "DispOper"});
-            table16.AddRow(new string[] {
                         "DispositionDate"});
-            table16.AddRow(new string[] {
-                        "LastHearingDate"});
-            table16.AddRow(new string[] {
-                        "Court"});
-            table16.AddRow(new string[] {
-                        "LastHearingCode"});
-            table16.AddRow(new string[] {
-                        "DateOfBirth"});
-            table16.AddRow(new string[] {
-                        "Final"});
-#line 156
+#line 158
   testRunner.And("the input columns are:", ((string)(null)), table16, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table17 = new TechTalk.SpecFlow.Table(new string[] {
@@ -462,8 +454,14 @@ this.ScenarioSetup(scenarioInfo);
             table17.AddRow(new string[] {
                         "Address"});
             table17.AddRow(new string[] {
-                        "Address2"});
-#line 172
+                        "City"});
+            table17.AddRow(new string[] {
+                        "State"});
+            table17.AddRow(new string[] {
+                        "Zip"});
+            table17.AddRow(new string[] {
+                        "DispositionDate"});
+#line 169
   testRunner.And("the following fields are marked for inclusion:", ((string)(null)), table17, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table18 = new TechTalk.SpecFlow.Table(new string[] {
@@ -473,27 +471,29 @@ this.ScenarioSetup(scenarioInfo);
             table18.AddRow(new string[] {
                         "Address"});
             table18.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
             table18.AddRow(new string[] {
-                        "DateOfBirth"});
+                        "State"});
+            table18.AddRow(new string[] {
+                        "Zip"});
 #line 177
   testRunner.And("the following fields are marked as de-dupe fields:", ((string)(null)), table18, "And ");
 #line hidden
             TechTalk.SpecFlow.Table table19 = new TechTalk.SpecFlow.Table(new string[] {
                         "Column"});
             table19.AddRow(new string[] {
-                        "CitationNumber"});
+                        "Citation"});
             table19.AddRow(new string[] {
                         "Offense"});
-#line 183
+#line 184
   testRunner.And("the following fields are marked as aggregate fields:", ((string)(null)), table19, "And ");
-#line 187
-  testRunner.And("the list has 5 rows with 1 duplicate records", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 188
- testRunner.When("I process the list for output", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.And("the list has 5 rows with 1 duplicate records", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 189
- testRunner.Then("the result should be an output in the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I process the list for output", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 190
+ testRunner.Then("the result should be an output in the municipal format", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 191
   testRunner.And("the output result should have 4 rows", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table20 = new TechTalk.SpecFlow.Table(new string[] {
@@ -503,10 +503,16 @@ this.ScenarioSetup(scenarioInfo);
             table20.AddRow(new string[] {
                         "Address"});
             table20.AddRow(new string[] {
-                        "Address2"});
+                        "City"});
+            table20.AddRow(new string[] {
+                        "State"});
+            table20.AddRow(new string[] {
+                        "Zip"});
+            table20.AddRow(new string[] {
+                        "DispositionDate"});
             table20.AddRow(new string[] {
                         "Citations"});
-#line 191
+#line 192
   testRunner.And("the column names should be:", ((string)(null)), table20, "And ");
 #line hidden
             this.ScenarioCleanup();

@@ -9,7 +9,7 @@ namespace IntegrationTests
 {
     public class TestBase
     {
-        protected string TestPath { get; } = @"C:\Development\InfoCraft\ExcelCombinator\TestFiles\";
+        protected string TestPath { get; } = @"C:\Development\Clients\GoDirect\ExcelCombinator\TestFiles\";
         protected Fixture Fixture { get; set; }
         public List<CashBondForfitureOutput> SampleOutputList { get; set; } = new List<CashBondForfitureOutput>();
         protected StandardKernel Kernel { get; private set; }

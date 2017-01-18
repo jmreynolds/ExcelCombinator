@@ -24,8 +24,8 @@ namespace IntegrationTests
         public void TearDown()
         {
             Thread.Sleep(5000);
-            if(File.Exists($@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx"))
-                File.Delete($@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx");
+            if(File.Exists($@"{TestPath}_Output.xlsx"))
+                File.Delete($@"{TestPath}New PC list 1 12 17_Output.xlsx");
             if(File.Exists($@"{TestPath}TestOutput.xlsx"))
                 File.Delete($@"{TestPath}TestOutput.xlsx");
         }
@@ -68,19 +68,19 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Should_Read_Full_WorkSheet()
         {
-            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}New PC list 1 12 17.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             var result = _reader.ReadWorkSheet().ToList();
-            result.Count.ShouldEqual(432);
+            result.Count.ShouldEqual(355);
 
             result.ShouldNotBeNull();
             var item = result.Where(x => x.Key == 1)
                 .Select(x => x.Value)
                 .FirstOrDefault()
-                ?.FirstOrDefault(x => x.ColumnName == "Offense Date");
+                ?.FirstOrDefault(x => x.ColumnName == "Violation Date");
             item.ShouldNotBeNull();
-            item?.Value.ShouldStartWith(@"1/14/2016");
+            item?.Value.ShouldStartWith(@"11/20/2016");
         }
 
         [Test, Category("Integration")]
@@ -107,7 +107,7 @@ namespace IntegrationTests
         public void RowCountChanged_Event_Should_Fire()
         {
             var reader = Kernel.Get<IReadExcelFiles>();
-            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}New PC list 1 12 17.xlsx";
             reader.InputFile = inputPath;
             var rowsReadEventFired = false;
             var rowsCountEventFired = false;
@@ -116,7 +116,7 @@ namespace IntegrationTests
             reader.ReadWorkSheet();
             rowsReadEventFired.ShouldBeTrue();
             rowsCountEventFired.ShouldBeTrue();
-            reader.RowsRead.ShouldEqual(432);
+            reader.RowsRead.ShouldEqual(355);
         }
 
         [Test, Category("Interop")]
@@ -125,8 +125,8 @@ namespace IntegrationTests
             var reader = Kernel.Get<IReadExcelFiles>();
             var processor = Kernel.Get<IProcessMunicipalItems>();
             var writer = Kernel.Get<IWriteExcelFiles>();
-            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
-            var outputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016_Output.xlsx";
+            var inputPath = $@"{TestPath}New PC list 1 12 17.xlsx";
+            var outputPath = $@"{TestPath}New PC list 1 12 17_Output.xlsx";
             var citationEventFired = false;
             var rowsToWriteEventFired = false;
             var inputFilterEventFired = false;
@@ -179,11 +179,11 @@ namespace IntegrationTests
         [Test, Category("Interop")]
         public void Reader_Should_Get_RowCount()
         {
-            var inputPath = $@"{TestPath}bf notice Jan 30-Feb 2, 2016.xlsx";
+            var inputPath = $@"{TestPath}New PC list 1 12 17.xlsx";
             _reader = Kernel.Get<IReadExcelFiles>();
             _reader.InputFile = inputPath;
             _reader.ReadWorkSheet();
-            _reader.RowsRead.ShouldEqual(432);
+            _reader.RowsRead.ShouldEqual(355);
         }
     }
 }
