@@ -32,8 +32,9 @@ namespace IntegrationTests
                     {
                         new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "City", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "State", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Zip", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
                         new DynamicItem {ColumnName = "Citations", Value = list1, ShouldRemoveDupes = false}
                     })
@@ -48,8 +49,9 @@ namespace IntegrationTests
                     {
                         new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "City", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "State", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Zip", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
                         new DynamicItem {ColumnName = "Citations", Value = list2, ShouldRemoveDupes = false}
                     })
@@ -63,8 +65,9 @@ namespace IntegrationTests
                     {
                         new DynamicItem {ColumnName = "Name", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "Address", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "AddressLine2", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
-                        new DynamicItem {ColumnName = "DateOfBirth", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "City", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "State", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
+                        new DynamicItem {ColumnName = "Zip", Value = Fixture.Create<string>(), ShouldRemoveDupes = true},
                         new DynamicItem {ColumnName = "DispositionDate", Value = Fixture.Create<string>(), ShouldRemoveDupes = false},
                         new DynamicItem {ColumnName = "Citations", Value = list3, ShouldRemoveDupes = false}
                     })
