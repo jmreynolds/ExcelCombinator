@@ -71,16 +71,17 @@ namespace DataAccess
                 {
                     for (int colNum = 0; colNum < colCount; colNum++)
                     {
+                        // Violation Date	Citation	Defendant	Address	City	State	Zip	Charge	Disposition Date
                         var colName = range.GetValue(rowNum, colNum).ToString();
-                        if (colName == "Offense Date") columnNames.Add(colNum, colName);
-                        if (colName == "Citationýnumber") columnNames.Add(colNum, colName);
-                        if (colName == "Name") columnNames.Add(colNum, colName);
+                        if (colName == "Violation Date") columnNames.Add(colNum, colName);
+                        if (colName == "Citation") columnNames.Add(colNum, colName);
+                        if (colName == "Defendant") columnNames.Add(colNum, colName);
                         if (colName == "Address") columnNames.Add(colNum, colName);
-                        if (colName == "City, St Zip") columnNames.Add(colNum, colName);
-                        if (colName == "Offense") columnNames.Add(colNum, colName);
-                        if (colName == "Bf Status Date") columnNames.Add(colNum, colName);
-                        if (colName == "Juvenile") columnNames.Add(colNum, colName);
-                        if (colName == "Disp Oper") columnNames.Add(colNum, colName);
+                        if (colName == "City") columnNames.Add(colNum, colName);
+                        if (colName == "State") columnNames.Add(colNum, colName);
+                        if (colName == "Zip") columnNames.Add(colNum, colName);
+                        if (colName == "Charge") columnNames.Add(colNum, colName);
+                        if (colName == "Disposition Date") columnNames.Add(colNum, colName);
                         //Bf row[6]
                     }
 
@@ -92,7 +93,7 @@ namespace DataAccess
                             new RowItem
                             {
                                 ColumnName = columnName.Value,
-                                Value = range.GetValue(rowNum, columnName.Key).ToString() //Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
+                                Value = range.GetValue(rowNum, columnName.Key)?.ToString() //Worksheet.UsedRange.Cells[rowNum, columnName.Key].Text.ToString()
                             }).ToList();
                     rows.Add(rowNum, row);
                     RowsRead++;

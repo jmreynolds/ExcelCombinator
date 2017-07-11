@@ -12,8 +12,8 @@ namespace Core.EqualityImplementations
             if (x == null && y == null) return true;
             if (x == null || y == null) return false;
 
-            var xDupes = x.DynamicItems.Where(xItem => xItem.ShouldRemoveDupes).ToList();
-            var yDuped = y.DynamicItems.Where(yItem => yItem.ShouldRemoveDupes).ToList();
+            var xDupes = x.DynamicItems.Where(xItem => xItem.ShouldRemoveDupes && xItem.Value != null).ToList();
+            var yDuped = y.DynamicItems.Where(yItem => yItem.ShouldRemoveDupes && yItem.Value != null).ToList();
             bool result = true;
             xDupes.ForEach(xItem =>
                            {

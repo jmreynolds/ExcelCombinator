@@ -14,183 +14,187 @@ Scenario: Map municipal data from excel
 	When I map them to a POCO list
 	Then the input result should have 3 rows
 
+
 Scenario: Should Map From Input Class List Into Output Class List
 	Given a sample list mapped from the municipal format
-			And the input columns are:
-			| Column          |
-			| OffenseDate     |
-			| CitationNumber  |
-			| Name            |
-			| Address         |
-			| Address2        |
-			| Offense         |
-			| Juvenile        |
-			| DispOper        |
-			| DispositionDate |
-			| LastHearingDate |
-			| Court           |
-			| LastHearingCode |
-			| DateOfBirth     |
-			| Final           |
+		And the input columns are:
+			| Column           |
+			| OffenseDate      |
+			| CitationNumber   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| Offense		   |
+			| DispositionDate  |
 		And the following fields are marked for inclusion:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
 		And the following fields are marked as de-dupe fields:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DateOfBirth|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
 		And the following fields are marked as aggregate fields:
-			|Column|
-			|CitationNumber|
-			|Offense|
+			| Column		   |
+			| Citation		   |
+			| Offense		   |
 		And the list has 5 rows with 0 duplicate records
 	When I process the list for output
 	Then the result should be an output in the municipal format
 		And the output result should have 5 rows
 		And the column names should be:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
-			|Citations|
+			| Column		   |
+			| Name		       |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
+			| Citations		   |
 
 Scenario: Correctly De-Duplicate the Input Data
 	Given a sample list mapped from the municipal format
 		And the input columns are:
-			| Column          |
-			| OffenseDate     |
-			| CitationNumber  |
-			| Name            |
-			| Address         |
-			| Address2        |
-			| Offense         |
-			| Juvenile        |
-			| DispOper        |
-			| DispositionDate |
-			| LastHearingDate |
-			| Court           |
-			| LastHearingCode |
-			| DateOfBirth     |
-			| Final           |
+			| Column           |
+			| OffenseDate      |
+			| CitationNumber   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| Offense		   |
+			| DispositionDate  |
 		And the following fields are marked for inclusion:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
 		And the following fields are marked as de-dupe fields:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DateOfBirth|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
 		And the following fields are marked as aggregate fields:
-			|Column|
-			|CitationNumber|
-			|Offense|
+			| Column		   |
+			| Citation		   |
+			| Offense		   |
 		And the list has 5 rows with 1 duplicate records
 	When I process the list for output
 	Then the result should be an output in the municipal format
 		And the output result should have 4 rows
 		And the column names should be:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
-			|Citations|
+			| Column		   |
+			| Name		       |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
+			| Citations		   |
 
 Scenario: Correctly Evaluate De-Dupe Fields
 	Given a sample list mapped from the municipal format
 		And the input columns are:
-			| Column          |
-			| OffenseDate     |
-			| CitationNumber  |
-			| Name            |
-			| Address         |
-			| Address2        |
-			| Offense         |
-			| Juvenile        |
-			| DispOper        |
-			| DispositionDate |
-			| LastHearingDate |
-			| Court           |
-			| LastHearingCode |
-			| DateOfBirth     |
-			| Final           |
+			| Column           |
+			| OffenseDate      |
+			| CitationNumber   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| Offense		   |
+			| DispositionDate  |
 		And the following fields are marked for inclusion:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
 		And the following fields are marked as de-dupe fields:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
 		And the following fields are marked as aggregate fields:
-			|Column|
-			|CitationNumber|
-			|Offense|
+			| Column		   |
+			| Citation		   |
+			| Offense		   |
 		And the list has 5 rows with 1 duplicate records
 	When I process the list for output
 	Then the result should be an output in the municipal format
 		And the output result should have 4 rows
 		And the column names should be:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DispositionDate|
-			|Citations|
+			| Column		   |
+			| Name		       |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
+			| Citations		   |
 
-			Scenario: Correctly Evaluate Inclusion Fields
-				Given a sample list mapped from the municipal format
+Scenario: Correctly Evaluate Inclusion Fields
+	Given a sample list mapped from the municipal format
 		And the input columns are:
-			| Column          |
-			| OffenseDate     |
-			| CitationNumber  |
-			| Name            |
-			| Address         |
-			| Address2        |
-			| Offense         |
-			| Juvenile        |
-			| DispOper        |
-			| DispositionDate |
-			| LastHearingDate |
-			| Court           |
-			| LastHearingCode |
-			| DateOfBirth     |
-			| Final           |
+			| Column           |
+			| OffenseDate      |
+			| CitationNumber   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| Offense		   |
+			| DispositionDate  |
 		And the following fields are marked for inclusion:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
 		And the following fields are marked as de-dupe fields:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|DateOfBirth|
+			| Column		   |
+			| Name  		   |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
 		And the following fields are marked as aggregate fields:
-			|Column|
-			|CitationNumber|
-			|Offense|
+			| Column		   |
+			| Citation		   |
+			| Offense		   |
 		And the list has 5 rows with 1 duplicate records
 	When I process the list for output
 	Then the result should be an output in the municipal format
 		And the output result should have 4 rows
 		And the column names should be:
-			|Column|
-			|Name|
-			|Address|
-			|Address2|
-			|Citations|
+			| Column		   |
+			| Name		       |
+			| Address          |
+			| City			   |
+			| State			   |
+			| Zip			   |
+			| DispositionDate  |
+			| Citations		   |

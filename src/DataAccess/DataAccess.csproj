@@ -51,10 +51,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DynamicMapping.cs" />
+    <Compile Include="ProcessMunicipalItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExcelBase.cs" />
     <Compile Include="ReadExcelFileProcessor.cs" />
-    <Compile Include="ProcessMunicipalItems.cs" />
     <Compile Include="ReadExcelFiles.cs" />
     <Compile Include="WriteExcelFiles.cs" />
   </ItemGroup>

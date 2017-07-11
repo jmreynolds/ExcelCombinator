@@ -13,16 +13,11 @@ namespace Core.Models
                 new DynamicItem {ColumnName = "CitationNumber"},
                 new DynamicItem {ColumnName = "Name"},
                 new DynamicItem {ColumnName = "Address"},
-                new DynamicItem {ColumnName = "AddressLine2"},
+                new DynamicItem {ColumnName = "City"},
+                new DynamicItem {ColumnName = "State"},
+                new DynamicItem {ColumnName = "Zip"},
                 new DynamicItem {ColumnName = "Offense"},
-                new DynamicItem {ColumnName = "Juvenile"},
-                new DynamicItem {ColumnName = "DispOper"},
                 new DynamicItem {ColumnName = "DispositionDate"},
-                new DynamicItem {ColumnName = "LastHearingDate"},
-                new DynamicItem {ColumnName = "Court"},
-                new DynamicItem {ColumnName = "LastHearingCode"},
-                new DynamicItem {ColumnName = "DateOfBirth"},
-                new DynamicItem {ColumnName = "Final"}
             };
         }
 
