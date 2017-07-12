@@ -83,6 +83,7 @@ namespace DataAccess
                         if (colName == "Charge") columnNames.Add(colNum, colName);
                         if (colName == "Disposition Date") columnNames.Add(colNum, colName);
                         //Bf row[6]
+                        if(columnNames.Count == 9) break;
                     }
 
                 }
